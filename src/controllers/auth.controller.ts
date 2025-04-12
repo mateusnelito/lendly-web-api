@@ -1,9 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { RegisterUserBody } from '../schemas/users.schema';
-import { createUser } from '../services/users.service';
+import { LoginUserBody, RegisterUserBody } from '../schemas/auth.schema';
+import { authUser, createUser } from '../services/auth.service';
 import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
-import { ensureUserEmailIsAvailable } from '../validators/users.validator';
+import {
+	ensureUserEmailIsAvailable,
+	ensureUserPasswordIsStrong,
+} from '../validators/auth.validator';
 
 export async function registerUserController(
 	request: FastifyRequest<{ Body: RegisterUserBody }>,
@@ -18,5 +21,21 @@ export async function registerUserController(
 	return reply.status(HttpStatusCodes.CREATED).send({
 		status: ResponseStatus.SUCCESS,
 		data: newUser,
+	});
+}
+
+export async function loginUserController(
+	request: FastifyRequest<{ Body: LoginUserBody }>,
+	reply: FastifyReply
+) {
+	const { email, password } = request.body;
+
+	await ensureUserPasswordIsStrong(password);
+
+	const loginPayload = await authUser(email, password);
+
+	return reply.status(HttpStatusCodes.CREATED).send({
+		status: ResponseStatus.SUCCESS,
+		data: loginPayload,
 	});
 }

@@ -1,4 +1,6 @@
-import { findUserUserEmail } from '../services/users.service';
+import { userPasswordSchema } from '../schemas/auth.schema';
+import { findUserUserEmail } from '../services/auth.service';
+import { throwInvalidUserCredentials } from '../utils/auth.util';
 import ClientError from '../utils/client-error.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 
@@ -14,4 +16,10 @@ export async function ensureUserEmailIsAvailable(
 		});
 
 	return user;
+}
+
+export async function ensureUserPasswordIsStrong(password: string) {
+	const parsedUserPassword = userPasswordSchema.safeParse(password);
+
+	if (!parsedUserPassword.success) throwInvalidUserCredentials();
 }
