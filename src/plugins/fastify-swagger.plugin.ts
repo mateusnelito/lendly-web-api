@@ -37,6 +37,10 @@ export default fastifyPlugin(async server => {
 					name: 'payments',
 					description: 'Payments for loans.',
 				},
+				{
+					name: 'me',
+					description: 'Authenticated User details and management.',
+				},
 			],
 		},
 		transform: jsonSchemaTransform,

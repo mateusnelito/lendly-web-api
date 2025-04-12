@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import { env } from './env';
 import errorHandlerPlugin from './plugins/error-handler.plugin';
 import fastifyCorsPlugin from './plugins/fastify-cors.plugin';
+import fastifyJwtPlugin from './plugins/fastify-jwt.plugin';
 import fastifySwaggerPlugin from './plugins/fastify-swagger.plugin';
 import fastifyTypeProviderZodPlugin from './plugins/fastify-type-provider-zod.plugin';
 import { routes } from './routes/index.route';
@@ -13,13 +14,14 @@ server.register(fastifyCorsPlugin);
 server.register(fastifyTypeProviderZodPlugin);
 server.register(errorHandlerPlugin);
 server.register(fastifySwaggerPlugin);
+server.register(fastifyJwtPlugin);
 
 // Register routes
 server.register(routes);
 
 // start server
 server
-	.listen({ port: env.PORT })
+	.listen({ port: env.PORT, host: '0.0.0.0' })
 	.then(() => {
 		console.log(`🔥 API Running on :${env.PORT}`);
 	})
