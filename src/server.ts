@@ -27,3 +27,12 @@ server
 		console.error(`🛑 Error starting API: \n ${err}`);
 		process.exit(1);
 	});
+
+// graceful shutdown
+const signalListeners = ['SIGINT', 'SIGTERM'];
+for (const signal of signalListeners) {
+	process.on(signal, async () => {
+		await server.close();
+		process.exit(0);
+	});
+}
