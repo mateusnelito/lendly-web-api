@@ -39,7 +39,7 @@ export default fastifyPlugin(async server => {
 				},
 				{
 					name: 'me',
-					description: 'Authenticated User details and management.',
+					description: 'Authenticated user details and management.',
 				},
 			],
 		},

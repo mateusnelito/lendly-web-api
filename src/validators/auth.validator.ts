@@ -1,5 +1,5 @@
 import { userPasswordSchema } from '../schemas/auth.schema';
-import { findUserUserEmail } from '../services/auth.service';
+import { findUserEmail } from '../services/users.service';
 import { throwInvalidUserCredentials } from '../utils/auth.util';
 import ClientError from '../utils/client-error.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
@@ -8,7 +8,7 @@ export async function ensureUserEmailIsAvailable(
 	email: string,
 	userId?: string
 ) {
-	const user = await findUserUserEmail(email, userId);
+	const user = await findUserEmail(email, userId);
 
 	if (user)
 		throw new ClientError('Email invalido.', HttpStatusCodes.CONFLICT, {

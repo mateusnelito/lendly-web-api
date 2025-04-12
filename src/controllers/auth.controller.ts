@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { LoginUserBody, RegisterUserBody } from '../schemas/auth.schema';
-import { authUser, createUser } from '../services/auth.service';
+import { authUser } from '../services/auth.service';
+import { createUser } from '../services/users.service';
 import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
