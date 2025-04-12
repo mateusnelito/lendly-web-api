@@ -1,5 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
+import { authRoutes } from './auth.route';
 
 export const routes: FastifyPluginAsync = async server => {
 	// Define the 404 route
@@ -9,4 +10,5 @@ export const routes: FastifyPluginAsync = async server => {
 			message: 'Route not found',
 		});
 	});
+	server.register(authRoutes, { prefix: '/auth' });
 };

@@ -7,8 +7,8 @@ export default fastifyPlugin(async server => {
 	server.register(fastifySwagger, {
 		swagger: {
 			info: {
-				title: '',
-				description: '',
+				title: 'Lendly API',
+				description: 'API for managing informal loans and payments per user.',
 				version: '1.0.0',
 			},
 
@@ -17,10 +17,26 @@ export default fastifyPlugin(async server => {
 			consumes: ['application/json'],
 			produces: ['application/json'],
 			tags: [
-				// {
-				// 	name: '',
-				// 	description: '',
-				// },
+				{
+					name: 'auth',
+					description: 'User registration and login.',
+				},
+				{
+					name: 'users',
+					description: 'Authenticated user info.',
+				},
+				{
+					name: 'clients',
+					description: 'Client management.',
+				},
+				{
+					name: 'loans',
+					description: 'Loan creation and tracking.',
+				},
+				{
+					name: 'payments',
+					description: 'Payments for loans.',
+				},
 			],
 		},
 		transform: jsonSchemaTransform,

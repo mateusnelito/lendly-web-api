@@ -15,6 +15,13 @@
       "when": 1744374023701,
       "tag": "0001_eager_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1744465718427,
+      "tag": "0002_sour_thunderbolt",
+      "breakpoints": true
     }
   ]
 }
