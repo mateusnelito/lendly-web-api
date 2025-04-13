@@ -1,15 +1,22 @@
 import { z } from 'zod';
-import { phoneRegex } from '../utils/regex.util';
+import { nameRegex, phoneRegex } from '../utils/regex.util';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from './error.schema';
 import { userSchema } from './users.schema';
 
+export const clientNameSchema = z
+	.string()
+	.trim()
+	.regex(nameRegex)
+	.min(3)
+	.max(50);
+
 export const clientSchema = z.object({
 	id: z.number().int().positive(),
 	userId: userSchema.shape.id,
-	name: userSchema.shape.name,
+	name: clientNameSchema,
 	email: userSchema.shape.email.nullable(),
 	phone: z.string().trim().length(9).regex(phoneRegex),
 	createdAt: userSchema.shape.createdAt,
@@ -78,6 +85,27 @@ export const getClientSchema = {
 	},
 };
 
+const getClientsQueryStringSchema = z.object({
+	q: z.string().optional(),
+});
+
+export const getClientsSchema = {
+	summary: 'Get a user clients.',
+	tags: ['clients'],
+	querystring: getClientsQueryStringSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: z.object({
+				clients: z.array(clientSchema.omit({ userId: true })),
+			}),
+		}),
+		401: businessErrorResponseSchema,
+		404: businessErrorResponseSchema,
+	},
+};
+
 export type CreateClientBody = z.infer<typeof createClientBodySchema>;
 export type UpdateClientBody = z.infer<typeof updateClientBodySchema>;
 export type ClientIdParams = z.infer<typeof clientIdParamsSchema>;
+export type GetClientsQueryString = z.infer<typeof getClientsQueryStringSchema>;

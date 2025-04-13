@@ -2,11 +2,13 @@ import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import {
 	getClientController,
+	getClientsController,
 	storeClientController,
 	updateClientController,
 } from '../controllers/clients.controller';
 import {
 	getClientSchema,
+	getClientsSchema,
 	storeClientSchema,
 	updateClientSchema,
 } from '../schemas/clients.schema';
@@ -28,5 +30,11 @@ export const clientRoutes: FastifyPluginAsync = async server => {
 		schema: getClientSchema,
 		preHandler: [server.authenticate],
 		handler: getClientController,
+	});
+
+	server.withTypeProvider<ZodTypeProvider>().get('/', {
+		schema: getClientsSchema,
+		preHandler: [server.authenticate],
+		handler: getClientsController,
 	});
 };

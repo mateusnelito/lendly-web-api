@@ -1,7 +1,12 @@
-import { and, eq, ne, or } from 'drizzle-orm';
+import { and, desc, eq, ilike, ne, or } from 'drizzle-orm';
 import { db } from '../db';
 import { clients } from '../db/schema/clients';
-import { CreateClientBody, UpdateClientBody } from '../schemas/clients.schema';
+import {
+	CreateClientBody,
+	GetClientsQueryString,
+	UpdateClientBody,
+	clientNameSchema,
+} from '../schemas/clients.schema';
 import ClientError from '../utils/client-error.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 
@@ -96,4 +101,30 @@ export async function findClientByIdOrThrownError(id: number, userId: string) {
 		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
 
 	return client;
+}
+
+export async function findClients(
+	userId: string,
+	params: GetClientsQueryString
+) {
+	const { q: searchQuery } = params;
+
+	// Check if name query follow name conventions
+	const parsedClientNameQuery = clientNameSchema.safeParse(searchQuery);
+	if (searchQuery && !parsedClientNameQuery.success) {
+		return {
+			clients: [],
+		};
+	}
+
+	const whereClauses = [byUserIdEquals(userId)];
+	if (searchQuery) whereClauses.push(ilike(clients.name, `%${searchQuery}%`));
+
+	const userClients = await db
+		.select(SELECT_CLIENT_FIELDS)
+		.from(clients)
+		.where(and(...whereClauses))
+		.orderBy(desc(clients.createdAt));
+
+	return { clients: userClients };
 }

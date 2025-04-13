@@ -2,11 +2,13 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import {
 	ClientIdParams,
 	CreateClientBody,
+	GetClientsQueryString,
 	UpdateClientBody,
 } from '../schemas/clients.schema';
 import {
 	createClient,
 	findClientByIdOrThrownError,
+	findClients,
 	updateClient,
 } from '../services/clients.service';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
@@ -63,5 +65,20 @@ export async function getClientController(
 	return reply.status(HttpStatusCodes.OK).send({
 		status: 'success',
 		data: client,
+	});
+}
+
+export async function getClientsController(
+	request: FastifyRequest<{ Querystring: GetClientsQueryString }>,
+	reply: FastifyReply
+) {
+	const { id: userId } = request.user;
+	const { query } = request;
+
+	const clients = await findClients(userId, query);
+
+	return reply.status(HttpStatusCodes.OK).send({
+		status: 'success',
+		data: clients,
 	});
 }
