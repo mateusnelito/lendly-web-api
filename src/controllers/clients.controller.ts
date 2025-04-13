@@ -4,7 +4,11 @@ import {
 	CreateClientBody,
 	UpdateClientBody,
 } from '../schemas/clients.schema';
-import { createClient, updateClient } from '../services/clients.service';
+import {
+	createClient,
+	findClientByIdOrThrownError,
+	updateClient,
+} from '../services/clients.service';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
 	ensureClientContactsIsAvailable,
@@ -36,13 +40,28 @@ export async function updateClientController(
 	const { id } = request.params;
 	const { body } = request;
 
-	await ensureClientExists(id);
+	await ensureClientExists(id, userId);
 	await ensureClientContactsIsAvailable({ ...body, userId, excludedId: id });
 
-	const updatedClient = await updateClient(id, body);
+	const updatedClient = await updateClient(id, body, userId);
 
 	return reply.status(HttpStatusCodes.OK).send({
 		status: 'success',
 		data: updatedClient,
+	});
+}
+
+export async function getClientController(
+	request: FastifyRequest<{ Params: ClientIdParams }>,
+	reply: FastifyReply
+) {
+	const { id: userId } = request.user;
+	const { id } = request.params;
+
+	const client = await findClientByIdOrThrownError(id, userId);
+
+	return reply.status(HttpStatusCodes.OK).send({
+		status: 'success',
+		data: client,
 	});
 }

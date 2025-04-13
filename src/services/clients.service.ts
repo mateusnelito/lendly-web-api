@@ -2,6 +2,8 @@ import { and, eq, ne, or } from 'drizzle-orm';
 import { db } from '../db';
 import { clients } from '../db/schema/clients';
 import { CreateClientBody, UpdateClientBody } from '../schemas/clients.schema';
+import ClientError from '../utils/client-error.util';
+import { HttpStatusCodes } from '../utils/http-status-codes.util';
 
 const SELECT_CLIENT_FIELDS = {
 	id: clients.id,
@@ -11,6 +13,10 @@ const SELECT_CLIENT_FIELDS = {
 	createdAt: clients.createdAt,
 	updatedAt: clients.updatedAt,
 };
+
+function byUserIdEquals(userId: string) {
+	return eq(clients.userId, userId);
+}
 
 export async function createClient(data: CreateClientBody, userId: string) {
 	const [client] = await db
@@ -39,7 +45,7 @@ export async function findClientByPhoneOrOptionalEmail(
 
 	const andClauses = [
 		or(...orClauses),
-		eq(clients.userId, userId),
+		byUserIdEquals(userId),
 		excludedId ? ne(clients.id, excludedId) : undefined,
 	].filter(Boolean);
 
@@ -54,22 +60,40 @@ export async function findClientByPhoneOrOptionalEmail(
 	return client;
 }
 
-export async function updateClient(id: number, data: UpdateClientBody) {
+export async function updateClient(
+	id: number,
+	data: UpdateClientBody,
+	userId: string
+) {
 	const [client] = await db
 		.update(clients)
 		.set(data)
-		.where(eq(clients.id, id))
+		.where(and(eq(clients.id, id), byUserIdEquals(userId)))
 		.returning(SELECT_CLIENT_FIELDS);
 
 	return client;
 }
 
-export async function findClientById(id: number) {
+export async function findClientById(id: number, userId: string) {
 	const [client] = await db
 		.select(SELECT_CLIENT_FIELDS)
 		.from(clients)
-		.where(eq(clients.id, id))
+		.where(and(eq(clients.id, id), byUserIdEquals(userId)))
 		.limit(1);
+
+	return client;
+}
+
+export async function findClientByIdOrThrownError(id: number, userId: string) {
+	// TODO: Add more fields or details to return
+	const [client] = await db
+		.select(SELECT_CLIENT_FIELDS)
+		.from(clients)
+		.where(and(eq(clients.id, id), byUserIdEquals(userId)))
+		.limit(1);
+
+	if (!client)
+		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
 
 	return client;
 }

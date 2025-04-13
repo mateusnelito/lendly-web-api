@@ -64,6 +64,20 @@ export const updateClientSchema = {
 	},
 };
 
+export const getClientSchema = {
+	summary: 'Get a user client.',
+	tags: ['clients'],
+	params: clientIdParamsSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: clientSchema.omit({ userId: true }),
+		}),
+		401: businessErrorResponseSchema,
+		404: businessErrorResponseSchema,
+	},
+};
+
 export type CreateClientBody = z.infer<typeof createClientBodySchema>;
 export type UpdateClientBody = z.infer<typeof updateClientBodySchema>;
 export type ClientIdParams = z.infer<typeof clientIdParamsSchema>;

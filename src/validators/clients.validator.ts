@@ -31,9 +31,11 @@ export async function ensureClientContactsIsAvailable(
 		});
 }
 
-export async function ensureClientExists(id: number) {
-	const client = await findClientById(id);
+export async function ensureClientExists(id: number, userId: string) {
+	const client = await findClientById(id, userId);
 
 	if (!client)
 		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
+
+	return client;
 }
