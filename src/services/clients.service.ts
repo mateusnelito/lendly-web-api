@@ -1,7 +1,7 @@
 import { and, eq, ne, or } from 'drizzle-orm';
 import { db } from '../db';
 import { clients } from '../db/schema/clients';
-import { CreateClientBody } from '../schemas/clients.schema';
+import { CreateClientBody, UpdateClientBody } from '../schemas/clients.schema';
 
 const SELECT_CLIENT_FIELDS = {
 	id: clients.id,
@@ -49,6 +49,26 @@ export async function findClientByPhoneOrOptionalEmail(
 		.select({ id: clients.id, email: clients.email, phone: clients.phone })
 		.from(clients)
 		.where(whereClause)
+		.limit(1);
+
+	return client;
+}
+
+export async function updateClient(id: number, data: UpdateClientBody) {
+	const [client] = await db
+		.update(clients)
+		.set(data)
+		.where(eq(clients.id, id))
+		.returning(SELECT_CLIENT_FIELDS);
+
+	return client;
+}
+
+export async function findClientById(id: number) {
+	const [client] = await db
+		.select(SELECT_CLIENT_FIELDS)
+		.from(clients)
+		.where(eq(clients.id, id))
 		.limit(1);
 
 	return client;

@@ -1,5 +1,6 @@
 import {
 	FindClientByPhoneOrOptionalEmail,
+	findClientById,
 	findClientByPhoneOrOptionalEmail,
 } from '../services/clients.service';
 import ClientError from '../utils/client-error.util';
@@ -28,4 +29,11 @@ export async function ensureClientContactsIsAvailable(
 		throw new ClientError('Email inválido.', HttpStatusCodes.CONFLICT, {
 			email: ['Já existe um cliente com este email.'],
 		});
+}
+
+export async function ensureClientExists(id: number) {
+	const client = await findClientById(id);
+
+	if (!client)
+		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
 }
