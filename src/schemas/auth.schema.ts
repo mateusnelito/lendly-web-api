@@ -1,20 +1,15 @@
 import { z } from 'zod';
-import { passwordRegex } from '../utils/regex.util';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from './error.schema';
-import { userSchema } from './users.schema';
+import { userPasswordSchema, userSchema } from './users.schema';
 
-export const userPasswordSchema = z
-	.string()
-	.trim()
-	.regex(passwordRegex)
-	.max(255);
-
-const registerUserBodySchema = userSchema
-	.pick({ name: true, email: true })
-	.extend({ password: userPasswordSchema });
+const registerUserBodySchema = z.object({
+	name: userSchema.shape.name,
+	email: userSchema.shape.email,
+	password: userPasswordSchema,
+});
 
 export const registerUserSchema = {
 	summary: 'Register a new user.',

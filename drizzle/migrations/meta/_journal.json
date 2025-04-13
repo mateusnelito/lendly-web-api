@@ -22,6 +22,34 @@
       "when": 1744465718427,
       "tag": "0002_sour_thunderbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1744534806570,
+      "tag": "0003_easy_hellcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1744550895116,
+      "tag": "0004_hard_miek",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1744551021386,
+      "tag": "0005_sour_karen_page",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1744551121208,
+      "tag": "0006_luxuriant_martin_li",
+      "breakpoints": true
     }
   ]
 }

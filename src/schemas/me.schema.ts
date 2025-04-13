@@ -1,10 +1,9 @@
 import { z } from 'zod';
-import { userPasswordSchema } from './auth.schema';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from './error.schema';
-import { userSchema } from './users.schema';
+import { userPasswordSchema, userSchema } from './users.schema';
 
 // TODO: DEFINE THAT THE ROUTE REQUIRE LOGIN AUTHENTICATE
 export const getMeSchema = {
@@ -24,9 +23,11 @@ export const deleteMeSchema = {
 	tags: ['me'],
 };
 
-const updateMeBodySchema = userSchema
-	.pick({ name: true, email: true })
-	.extend({ password: userPasswordSchema.optional() });
+const updateMeBodySchema = z.object({
+	name: userSchema.shape.name,
+	email: userSchema.shape.email,
+	password: userPasswordSchema,
+});
 
 export const updateMeSchema = {
 	summary: 'Allow the current user update her data.',

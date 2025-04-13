@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { nameRegex } from '../utils/regex.util';
+import { nameRegex, passwordRegex } from '../utils/regex.util';
 
 export const userSchema = z.object({
 	id: z.string().trim().cuid2(),
@@ -9,3 +9,9 @@ export const userSchema = z.object({
 	createdAt: z.date().optional(),
 	updatedAt: z.date().nullable(),
 });
+
+export const userPasswordSchema = z
+	.string()
+	.trim()
+	.regex(passwordRegex)
+	.max(255);

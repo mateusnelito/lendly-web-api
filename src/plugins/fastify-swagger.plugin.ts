@@ -11,7 +11,6 @@ export default fastifyPlugin(async server => {
 				description: 'API for managing informal loans and payments per user.',
 				version: '1.0.0',
 			},
-
 			host: 'localhost:3000',
 			schemes: ['http'],
 			consumes: ['application/json'],

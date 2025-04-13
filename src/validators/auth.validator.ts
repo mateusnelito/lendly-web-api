@@ -1,4 +1,4 @@
-import { userPasswordSchema } from '../schemas/auth.schema';
+import { userPasswordSchema } from '../schemas/users.schema';
 import { findUserEmail } from '../services/users.service';
 import { throwInvalidUserCredentials } from '../utils/auth.util';
 import ClientError from '../utils/client-error.util';
