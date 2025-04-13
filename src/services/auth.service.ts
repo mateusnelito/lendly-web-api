@@ -1,9 +1,10 @@
+import { JWT } from '@fastify/jwt';
+import { env } from '../env';
 import { throwInvalidUserCredentials } from '../utils/auth.util';
 import { comparePassword } from '../utils/bcrypt.util';
-import { generateToken } from '../utils/jwt.util';
 import { findUserByEmail } from './users.service';
 
-export async function authUser(email: string, password: string) {
+export async function authUser(email: string, password: string, jwt: JWT) {
 	const user = await findUserByEmail(email);
 
 	if (!user) throwInvalidUserCredentials();
@@ -14,7 +15,10 @@ export async function authUser(email: string, password: string) {
 
 	const { id } = user;
 
-	const accessToken = generateToken({ user: { id } });
+	const accessToken = jwt.sign(
+		{ user: { id } },
+		{ expiresIn: env.JWT_EXPIRATION }
+	);
 
 	return {
 		accessToken,

@@ -29,11 +29,12 @@ export async function loginUserController(
 	request: FastifyRequest<{ Body: LoginUserBody }>,
 	reply: FastifyReply
 ) {
+	const { jwt } = request.server;
 	const { email, password } = request.body;
 
 	await ensureUserPasswordIsStrong(password);
 
-	const loginPayload = await authUser(email, password);
+	const loginPayload = await authUser(email, password, jwt);
 
 	return reply.status(HttpStatusCodes.CREATED).send({
 		status: ResponseStatus.SUCCESS,

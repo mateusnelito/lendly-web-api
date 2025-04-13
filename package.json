@@ -41,11 +41,14 @@
 		"fastify": "^5.2.2",
 		"fastify-plugin": "^5.0.1",
 		"fastify-type-provider-zod": "^4.0.2",
-		"jsonwebtoken": "^9.0.2",
 		"pg": "^8.14.1",
 		"zod": "^3.24.2"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "bcrypt", "esbuild"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"bcrypt",
+			"esbuild"
+		]
 	}
 }
