@@ -69,7 +69,7 @@ export async function findUserById(id: string) {
 export async function deleteUser(id: string) {
 	const [user] = await db
 		.update(users)
-		.set({ isDeleted: true, updatedAt: new Date() })
+		.set({ isDeleted: true })
 		.where(and(eq(users.id, id), eq(users.isDeleted, false)))
 		.returning(SELECT_USER_FIELDS);
 
@@ -83,7 +83,7 @@ export async function updateUser(id: string, data: UpdateMeBody) {
 
 	const [user] = await db
 		.update(users)
-		.set({ name, email, passwordHash, updatedAt: new Date() })
+		.set({ name, email, passwordHash })
 		.where(and(eq(users.id, id), eq(users.isDeleted, false)))
 		.returning(SELECT_USER_FIELDS);
 

@@ -19,7 +19,7 @@ export const loans = pgTable(
 		clientId: integer('client_id')
 			.notNull()
 			.references(() => clients.id, { onDelete: 'cascade' }),
-		userId: varchar('user_id', { length: 24 })
+		userId: varchar('user_id', { length: 26 })
 			.notNull()
 			.references(() => users.id, { onDelete: 'cascade' }),
 		amountGiven: integer('amount_given').notNull(),
@@ -29,7 +29,7 @@ export const loans = pgTable(
 		interestValuePerMonth: integer('interest_value_per_month'),
 		notes: varchar('notes', { length: 500 }),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
-		updatedAt: timestamp('updated_at'),
+		updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 	},
 	t => [
 		index().on(t.clientId),

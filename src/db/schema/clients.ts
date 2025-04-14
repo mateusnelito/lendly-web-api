@@ -14,14 +14,14 @@ export const clients = pgTable(
 	'clients',
 	{
 		id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
-		userId: varchar('user_id', { length: 24 })
+		userId: varchar('user_id', { length: 26 })
 			.notNull()
 			.references(() => users.id, { onDelete: 'cascade' }),
 		name: varchar('name', { length: 50 }).notNull(),
 		email: varchar('email', { length: 255 }),
 		phone: varchar('phone', { length: 9 }).notNull(),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
-		updatedAt: timestamp('updated_at'),
+		updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 	},
 	t => [
 		index().on(t.userId),

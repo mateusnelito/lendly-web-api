@@ -4,23 +4,27 @@ import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from './error.schema';
+import {
+	coercedIntIdeSchema,
+	createdAtSchema,
+	emailSchema,
+	intIdSchema,
+	nameSchema,
+	phoneSchema,
+	updatedAtSchema,
+} from './primitive.schema';
 import { userSchema } from './users.schema';
 
-export const clientNameSchema = z
-	.string()
-	.trim()
-	.regex(nameRegex)
-	.min(3)
-	.max(50);
+export const clientNameSchema = nameSchema;
 
 export const clientSchema = z.object({
-	id: z.number().int().positive(),
+	id: intIdSchema,
 	userId: userSchema.shape.id,
 	name: clientNameSchema,
-	email: userSchema.shape.email.nullable(),
-	phone: z.string().trim().length(9).regex(phoneRegex),
-	createdAt: userSchema.shape.createdAt,
-	updatedAt: userSchema.shape.updatedAt,
+	email: emailSchema.nullable(),
+	phone: phoneSchema,
+	createdAt: createdAtSchema,
+	updatedAt: updatedAtSchema,
 });
 
 const createClientBodySchema = z.object({
@@ -51,7 +55,7 @@ const updateClientBodySchema = z.object({
 });
 
 const clientIdParamsSchema = z.object({
-	id: z.coerce.number().int().positive(),
+	id: coercedIntIdeSchema,
 });
 
 export const updateClientSchema = {

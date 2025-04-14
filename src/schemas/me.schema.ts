@@ -5,7 +5,6 @@ import {
 } from './error.schema';
 import { userPasswordSchema, userSchema } from './users.schema';
 
-// TODO: DEFINE THAT THE ROUTE REQUIRE LOGIN AUTHENTICATE
 export const getMeSchema = {
 	summary: 'Allow the current user get account details.',
 	tags: ['me'],
@@ -26,7 +25,7 @@ export const deleteMeSchema = {
 const updateMeBodySchema = z.object({
 	name: userSchema.shape.name,
 	email: userSchema.shape.email,
-	password: userPasswordSchema,
+	password: userPasswordSchema.optional(),
 });
 
 export const updateMeSchema = {
