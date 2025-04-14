@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, ne, or } from 'drizzle-orm';
+import { and, desc, eq, ilike, lt, ne, or } from 'drizzle-orm';
 import { db } from '../db';
 import { clients } from '../db/schema/clients';
 import {
@@ -8,6 +8,7 @@ import {
 	clientNameSchema,
 } from '../schemas/clients.schema';
 import ClientError from '../utils/client-error.util';
+import { getNextCursor } from '../utils/general.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 
 const SELECT_CLIENT_FIELDS = {
@@ -107,7 +108,7 @@ export async function findClients(
 	userId: string,
 	params: GetClientsQueryString
 ) {
-	const { q: searchQuery } = params;
+	const { size, q: searchQuery, cursor } = params;
 
 	// Check if name query follow name conventions
 	const parsedClientNameQuery = clientNameSchema.safeParse(searchQuery);
@@ -117,14 +118,20 @@ export async function findClients(
 		};
 	}
 
-	const whereClauses = [byUserIdEquals(userId)];
-	if (searchQuery) whereClauses.push(ilike(clients.name, `%${searchQuery}%`));
+	const filtersClause = [
+		byUserIdEquals(userId),
+		searchQuery ? ilike(clients.name, `%${searchQuery}%`) : undefined,
+		cursor ? lt(clients.id, cursor) : undefined,
+	].filter(Boolean);
 
 	const userClients = await db
 		.select(SELECT_CLIENT_FIELDS)
 		.from(clients)
-		.where(and(...whereClauses))
-		.orderBy(desc(clients.createdAt));
+		.where(and(...filtersClause))
+		.limit(size)
+		.orderBy(desc(clients.id));
 
-	return { clients: userClients };
+	const nextCursor = getNextCursor(userClients, size);
+
+	return { clients: userClients, nextCursor };
 }

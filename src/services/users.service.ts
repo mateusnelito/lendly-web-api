@@ -1,4 +1,4 @@
-import { and, eq, is, ne } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { db } from '../db';
 import { users } from '../db/schema/users';
 import { RegisterUserBody } from '../schemas/auth.schema';

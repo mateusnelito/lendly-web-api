@@ -20,4 +20,10 @@ export const descriptionSchema = z
 	.max(100)
 	.regex(descriptionRegex);
 export const intIdSchema = z.number().int().positive();
-export const coercedIntIdeSchema = z.coerce.number().int().positive();
+export const intIdParamsSchema = z.coerce.number().int().positive();
+export const sizeQueryStringSchema = z.coerce
+	.number()
+	.int()
+	.min(10)
+	.max(50)
+	.default(10);

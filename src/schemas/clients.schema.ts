@@ -5,12 +5,14 @@ import {
 	validationErrorResponseSchema,
 } from './error.schema';
 import {
-	coercedIntIdeSchema,
 	createdAtSchema,
 	emailSchema,
+	intIdParamsSchema,
 	intIdSchema,
 	nameSchema,
 	phoneSchema,
+	sizeQueryStringSchema,
+	ulidSchema,
 	updatedAtSchema,
 } from './primitive.schema';
 import { userSchema } from './users.schema';
@@ -55,7 +57,7 @@ const updateClientBodySchema = z.object({
 });
 
 const clientIdParamsSchema = z.object({
-	id: coercedIntIdeSchema,
+	id: intIdParamsSchema,
 });
 
 export const updateClientSchema = {
@@ -91,6 +93,8 @@ export const getClientSchema = {
 
 const getClientsQueryStringSchema = z.object({
 	q: z.string().optional(),
+	size: sizeQueryStringSchema,
+	cursor: intIdParamsSchema.optional(),
 });
 
 export const getClientsSchema = {
@@ -102,6 +106,7 @@ export const getClientsSchema = {
 			status: z.string().default('success'),
 			data: z.object({
 				clients: z.array(clientSchema.omit({ userId: true })),
+				nextCursor: intIdSchema.optional(),
 			}),
 		}),
 		401: businessErrorResponseSchema,
