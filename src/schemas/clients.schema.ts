@@ -8,7 +8,7 @@ import {
 	createdAtSchema,
 	emailSchema,
 	intIdParamsSchema,
-	intIdSchema,
+	intPositiveNumberSchema,
 	nameSchema,
 	phoneSchema,
 	sizeQueryStringSchema,
@@ -20,7 +20,7 @@ import { userSchema } from './users.schema';
 export const clientNameSchema = nameSchema;
 
 export const clientSchema = z.object({
-	id: intIdSchema,
+	id: intPositiveNumberSchema,
 	userId: userSchema.shape.id,
 	name: clientNameSchema,
 	email: emailSchema.nullable(),
@@ -106,7 +106,7 @@ export const getClientsSchema = {
 			status: z.string().default('success'),
 			data: z.object({
 				clients: z.array(clientSchema.omit({ userId: true })),
-				nextCursor: intIdSchema.optional(),
+				nextCursor: intPositiveNumberSchema.optional(),
 			}),
 		}),
 		401: businessErrorResponseSchema,

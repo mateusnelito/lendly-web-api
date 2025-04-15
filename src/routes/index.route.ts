@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import { authRoutes } from './auth.route';
 import { clientRoutes } from './clients.route';
+import { loanRoutes } from './loans.route';
 import { meRoutes } from './me.route';
 
 export const routes: FastifyPluginAsync = async server => {
@@ -15,4 +16,5 @@ export const routes: FastifyPluginAsync = async server => {
 	server.register(authRoutes, { prefix: '/auth' });
 	server.register(meRoutes, { prefix: '/me' });
 	server.register(clientRoutes, { prefix: '/clients' });
+	server.register(loanRoutes, { prefix: '/loans' });
 };

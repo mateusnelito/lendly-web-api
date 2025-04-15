@@ -16,10 +16,10 @@ export const updatedAtSchema = z.date().nullable();
 export const descriptionSchema = z
 	.string()
 	.trim()
-	.min(3)
-	.max(100)
+	.min(10)
+	.max(500)
 	.regex(descriptionRegex);
-export const intIdSchema = z.number().int().positive();
+export const intPositiveNumberSchema = z.number().int().positive();
 export const intIdParamsSchema = z.coerce.number().int().positive();
 export const sizeQueryStringSchema = z.coerce
 	.number()
