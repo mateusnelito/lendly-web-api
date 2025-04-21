@@ -6,8 +6,10 @@ import {
 } from './error.schema';
 import { loanSchema } from './loans.schema';
 import {
+	booleanQueryStringSchema,
 	intIdParamsSchema,
 	intPositiveNumberSchema,
+	sizeQueryStringSchema,
 	stringDateSchema,
 	updatedAtSchema,
 } from './primitive.schema';
@@ -75,5 +77,31 @@ export const getPaymentSchema = {
 	},
 };
 
+const getPaymentsQueryStringSchema = z.object({
+	startDate: stringDateSchema.optional(),
+	endDate: stringDateSchema.optional(),
+	includeDeleted: booleanQueryStringSchema.optional(),
+	size: sizeQueryStringSchema,
+	cursor: intIdParamsSchema.optional(),
+});
+
+export const getPaymentsSchema = {
+	summary: 'Get a user payments.',
+	tags: ['payments'],
+	querystring: getPaymentsQueryStringSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: z.object({
+				payments: z.array(paymentSchema.omit({ userId: true })),
+				nextCursor: intPositiveNumberSchema.optional(),
+			}),
+		}),
+	},
+};
+
 export type CreatePaymentBody = z.infer<typeof createPaymentBodySchema>;
 export type PaymentIdParams = z.infer<typeof paymentIdParamsSchema>;
+export type GetPaymentsQueryString = z.infer<
+	typeof getPaymentsQueryStringSchema
+>;

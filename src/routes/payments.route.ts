@@ -4,11 +4,13 @@ import {
 	createPaymentController,
 	deletePaymentController,
 	getPaymentController,
+	getPaymentsController,
 } from '../controllers/payments.controller';
 import {
 	createPaymentSchema,
 	deletePaymentSchema,
 	getPaymentSchema,
+	getPaymentsSchema,
 } from '../schemas/payments.schema';
 
 export const paymentRoutes: FastifyPluginAsync = async server => {
@@ -28,5 +30,11 @@ export const paymentRoutes: FastifyPluginAsync = async server => {
 		schema: getPaymentSchema,
 		preHandler: [server.authenticate],
 		handler: getPaymentController,
+	});
+
+	server.withTypeProvider<ZodTypeProvider>().get('/', {
+		schema: getPaymentsSchema,
+		preHandler: [server.authenticate],
+		handler: getPaymentsController,
 	});
 };
