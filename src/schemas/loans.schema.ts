@@ -5,10 +5,12 @@ import {
 	validationErrorResponseSchema,
 } from './error.schema';
 import {
+	booleanQueryStringSchema,
 	createdAtSchema,
 	descriptionSchema,
 	intIdParamsSchema,
 	intPositiveNumberSchema,
+	sizeQueryStringSchema,
 	updatedAtSchema,
 } from './primitive.schema';
 import { userSchema } from './users.schema';
@@ -79,6 +81,32 @@ export const updateLoanSchema = {
 	},
 };
 
+const getLoansQueryStringSchema = z.object({
+	clientId: intIdParamsSchema.optional(),
+	isPaid: booleanQueryStringSchema.optional(),
+	hasInterest: booleanQueryStringSchema.optional(),
+	size: sizeQueryStringSchema,
+	cursor: intIdParamsSchema.optional(),
+});
+
+export const getLoansSchema = {
+	summary: 'Get a user loans.',
+	tags: ['loans'],
+	querystring: getLoansQueryStringSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: z.object({
+				loans: z.array(loanSchema.omit({ userId: true })),
+				nextCursor: intPositiveNumberSchema.optional(),
+			}),
+		}),
+		401: businessErrorResponseSchema,
+		404: businessErrorResponseSchema,
+	},
+};
+
 export type CreateLoanBody = z.infer<typeof createLoanBodySchema>;
 export type UpdateLoanBody = z.infer<typeof updateLoanBodySchema>;
 export type LoanIdParams = z.infer<typeof loanIdParamsSchema>;
+export type GetLoansQueryString = z.infer<typeof getLoansQueryStringSchema>;

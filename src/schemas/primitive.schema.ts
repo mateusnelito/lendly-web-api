@@ -27,3 +27,4 @@ export const sizeQueryStringSchema = z.coerce
 	.min(10)
 	.max(50)
 	.default(10);
+export const booleanQueryStringSchema = z.coerce.boolean();

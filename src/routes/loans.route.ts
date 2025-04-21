@@ -2,9 +2,14 @@ import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import {
 	createLoanController,
+	getLoansController,
 	updateLoanController,
 } from '../controllers/loans.controller';
-import { createLoanSchema, updateLoanSchema } from '../schemas/loans.schema';
+import {
+	createLoanSchema,
+	getLoansSchema,
+	updateLoanSchema,
+} from '../schemas/loans.schema';
 
 export const loanRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/', {
@@ -17,5 +22,11 @@ export const loanRoutes: FastifyPluginAsync = async server => {
 		schema: updateLoanSchema,
 		preHandler: [server.authenticate],
 		handler: updateLoanController,
+	});
+
+	server.withTypeProvider<ZodTypeProvider>().get('/', {
+		schema: getLoansSchema,
+		preHandler: [server.authenticate],
+		handler: getLoansController,
 	});
 };
