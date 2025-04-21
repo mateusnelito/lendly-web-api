@@ -33,7 +33,7 @@ const createClientBodySchema = z.object({
 	email: clientSchema.shape.email.optional(),
 });
 
-export const storeClientSchema = {
+export const createClientSchema = {
 	summary: 'Register a new user client.',
 	tags: ['clients'],
 	body: createClientBodySchema,
@@ -44,7 +44,7 @@ export const storeClientSchema = {
 		}),
 		400: validationErrorResponseSchema,
 		401: businessErrorResponseSchema,
-		// 409: validationErrorResponseSchema,
+		409: validationErrorResponseSchema,
 	},
 };
 

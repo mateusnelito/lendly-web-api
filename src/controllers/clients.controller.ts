@@ -17,7 +17,7 @@ import {
 	ensureClientExists,
 } from '../validators/clients.validator';
 
-export async function storeClientController(
+export async function createClientController(
 	request: FastifyRequest<{ Body: CreateClientBody }>,
 	reply: FastifyReply
 ) {

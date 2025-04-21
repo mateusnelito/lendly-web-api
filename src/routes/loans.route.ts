@@ -1,16 +1,16 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import {
-	storeLoanController,
+	createLoanController,
 	updateLoanController,
 } from '../controllers/loans.controller';
-import { storeLoanSchema, updateLoanSchema } from '../schemas/loans.schema';
+import { createLoanSchema, updateLoanSchema } from '../schemas/loans.schema';
 
 export const loanRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/', {
-		schema: storeLoanSchema,
+		schema: createLoanSchema,
 		preHandler: [server.authenticate],
-		handler: storeLoanController,
+		handler: createLoanController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().put('/:id', {

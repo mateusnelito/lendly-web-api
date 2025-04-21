@@ -48,7 +48,7 @@ const updateLoanBodySchema = z.object({
 	notes: loanSchema.shape.notes.optional(),
 });
 
-export const storeLoanSchema = {
+export const createLoanSchema = {
 	summary: 'Register a new user loan.',
 	tags: ['loans'],
 	body: createLoanBodySchema,

@@ -12,7 +12,7 @@ import {
 	validateLoanData,
 } from '../validators/loans.validator';
 
-export async function storeLoanController(
+export async function createLoanController(
 	request: FastifyRequest<{ Body: CreateLoanBody }>,
 	reply: FastifyReply
 ) {
