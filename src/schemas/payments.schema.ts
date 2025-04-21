@@ -1,7 +1,11 @@
 import { z } from 'zod';
-import { validationErrorResponseSchema } from './error.schema';
+import {
+	businessErrorResponseSchema,
+	validationErrorResponseSchema,
+} from './error.schema';
 import { loanSchema } from './loans.schema';
 import {
+	intIdParamsSchema,
 	intPositiveNumberSchema,
 	stringDateSchema,
 	updatedAtSchema,
@@ -40,4 +44,18 @@ export const createPaymentSchema = {
 	},
 };
 
+const paymentIdParamsSchema = z.object({
+	id: intIdParamsSchema,
+});
+
+export const deletePaymentSchema = {
+	summary: 'Delete a user payment.',
+	tags: ['payments'],
+	params: paymentIdParamsSchema,
+	response: {
+		404: businessErrorResponseSchema,
+	},
+};
+
 export type CreatePaymentBody = z.infer<typeof createPaymentBodySchema>;
+export type PaymentIdParams = z.infer<typeof paymentIdParamsSchema>;

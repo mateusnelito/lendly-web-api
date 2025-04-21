@@ -1,5 +1,6 @@
 import { CreatePaymentBody } from '../schemas/payments.schema';
 import { findLoanById } from '../services/loans.service';
+import { findPaymentById } from '../services/payments.service';
 import ClientError from '../utils/client-error.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 
@@ -73,4 +74,16 @@ export async function validatePaymentData(
 	}
 
 	return loan;
+}
+
+export async function ensurePaymentExists(id: number, userId: string) {
+	const payment = await findPaymentById(id, userId);
+
+	if (!payment)
+		throw new ClientError(
+			'Pagamento não registrado ou excluído.',
+			HttpStatusCodes.NOT_FOUND
+		);
+
+	return payment;
 }

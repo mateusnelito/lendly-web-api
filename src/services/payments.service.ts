@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 import { db } from '../db';
 import { loans } from '../db/schema/loans';
 import { payments } from '../db/schema/payments';
@@ -32,4 +32,46 @@ export async function createPayment(userId: string, data: CreatePaymentBody) {
 	});
 
 	return newPayment;
+}
+
+export async function findPaymentById(id: number, userId: string) {
+	const [payment] = await db
+		.select(SELECT_PAYMENT_FIELDS)
+		.from(payments)
+		.where(
+			and(
+				eq(payments.id, id),
+				eq(payments.userId, userId),
+				isNull(payments.deletedAt)
+			)
+		)
+		.limit(1);
+
+	return payment;
+}
+
+export async function deletePayment(id: number, userId: string) {
+	const deletedPayment = await db.transaction(async tx => {
+		const [payment] = await tx
+			.update(payments)
+			.set({ deletedAt: new Date() })
+			.where(
+				and(
+					eq(payments.id, id),
+					eq(payments.userId, userId),
+					isNull(payments.deletedAt)
+				)
+			)
+			.returning(SELECT_PAYMENT_FIELDS);
+
+		const [updatedLoan] = await tx
+			.update(loans)
+			.set({ isPaid: false })
+			.where(and(eq(loans.id, payment.loanId), eq(loans.userId, userId)))
+			.returning(SELECT_LOAN_FIELDS);
+
+		return { ...payment, loan: updatedLoan };
+	});
+
+	return deletedPayment;
 }
