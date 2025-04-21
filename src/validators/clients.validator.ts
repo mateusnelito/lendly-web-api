@@ -18,11 +18,9 @@ export async function ensureClientContactsIsAvailable(
 		excludedId,
 	});
 
-	if (!client) return;
-
 	if (client?.phone === phone)
 		throw new ClientError('Telefone inválido.', HttpStatusCodes.CONFLICT, {
-			phone: ['Já existe um cliente com este email..'],
+			phone: ['Já existe um cliente com este telefone.'],
 		});
 
 	if (email && client?.email === email)
