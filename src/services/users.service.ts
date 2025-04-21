@@ -4,15 +4,7 @@ import { users } from '../db/schema/users';
 import { RegisterUserBody } from '../schemas/auth.schema';
 import { UpdateMeBody } from '../schemas/me.schema';
 import { hashPassword } from '../utils/bcrypt.util';
-
-const SELECT_USER_FIELDS = {
-	id: users.id,
-	name: users.name,
-	email: users.email,
-	isDeleted: users.isDeleted,
-	createdAt: users.createdAt,
-	updatedAt: users.updatedAt,
-};
+import { SELECT_USER_FIELDS } from '../utils/drizzle.util';
 
 export async function createUser(data: RegisterUserBody) {
 	const { name, email, password } = data;

@@ -4,6 +4,7 @@ import { authRoutes } from './auth.route';
 import { clientRoutes } from './clients.route';
 import { loanRoutes } from './loans.route';
 import { meRoutes } from './me.route';
+import { paymentRoutes } from './payments.route';
 
 export const routes: FastifyPluginAsync = async server => {
 	// Define the 404 route
@@ -17,4 +18,5 @@ export const routes: FastifyPluginAsync = async server => {
 	server.register(meRoutes, { prefix: '/me' });
 	server.register(clientRoutes, { prefix: '/clients' });
 	server.register(loanRoutes, { prefix: '/loans' });
+	server.register(paymentRoutes, { prefix: '/payments' });
 };

@@ -11,6 +11,7 @@ import {
 	findClients,
 	updateClient,
 } from '../services/clients.service';
+import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
 	ensureClientContactsIsAvailable,
@@ -29,7 +30,7 @@ export async function createClientController(
 	const newClient = await createClient(body, id);
 
 	return reply.status(HttpStatusCodes.CREATED).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: newClient,
 	});
 }
@@ -48,7 +49,7 @@ export async function updateClientController(
 	const updatedClient = await updateClient(id, body, userId);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: updatedClient,
 	});
 }
@@ -63,7 +64,7 @@ export async function getClientController(
 	const client = await findClientByIdOrThrownError(id, userId);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: client,
 	});
 }
@@ -78,7 +79,7 @@ export async function getClientsController(
 	const clients = await findClients(userId, query);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: clients,
 	});
 }

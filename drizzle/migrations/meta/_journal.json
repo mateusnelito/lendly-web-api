@@ -64,6 +64,13 @@
       "when": 1745237853728,
       "tag": "0008_wonderful_havok",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1745247389003,
+      "tag": "0009_chief_gorilla_man",
+      "breakpoints": true
     }
   ]
 }

@@ -28,3 +28,4 @@ export const sizeQueryStringSchema = z.coerce
 	.max(50)
 	.default(10);
 export const booleanQueryStringSchema = z.coerce.boolean();
+export const stringDateSchema = z.string().date();

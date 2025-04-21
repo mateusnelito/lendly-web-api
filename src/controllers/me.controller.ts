@@ -5,6 +5,7 @@ import {
 	findUserById,
 	updateUser,
 } from '../services/users.service';
+import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import { ensureUserEmailIsAvailable } from '../validators/auth.validator';
 
@@ -17,7 +18,7 @@ export async function getMeController(
 	const user = await findUserById(id);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: user,
 	});
 }
@@ -45,7 +46,7 @@ export async function updateMeController(
 	const updatedUser = await updateUser(id, body);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: updatedUser,
 	});
 }

@@ -11,6 +11,7 @@ import {
 	findLoans,
 	updateLoan,
 } from '../services/loans.service';
+import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
 	ensureClientIdExists,
@@ -31,7 +32,7 @@ export async function createLoanController(
 	const newLoan = await createLoan(userId, data);
 
 	return reply.status(HttpStatusCodes.CREATED).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: newLoan,
 	});
 }
@@ -50,7 +51,7 @@ export async function updateLoanController(
 	const updatedLoan = await updateLoan(userId, id, data);
 
 	return reply.status(HttpStatusCodes.CREATED).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: updatedLoan,
 	});
 }
@@ -65,7 +66,7 @@ export async function getLoansController(
 	const loans = await findLoans(userId, query);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: loans,
 	});
 }
@@ -80,7 +81,7 @@ export async function getLoanController(
 	const loan = await findLoanByIdOrThrownError(id, userId);
 
 	return reply.status(HttpStatusCodes.OK).send({
-		status: 'success',
+		status: ResponseStatus.SUCCESS,
 		data: loan,
 	});
 }

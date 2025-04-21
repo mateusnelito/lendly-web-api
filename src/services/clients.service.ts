@@ -8,17 +8,9 @@ import {
 	clientNameSchema,
 } from '../schemas/clients.schema';
 import ClientError from '../utils/client-error.util';
+import { SELECT_CLIENT_FIELDS } from '../utils/drizzle.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import { getNextCursor } from '../utils/pagination.util';
-
-const SELECT_CLIENT_FIELDS = {
-	id: clients.id,
-	name: clients.name,
-	email: clients.email,
-	phone: clients.phone,
-	createdAt: clients.createdAt,
-	updatedAt: clients.updatedAt,
-};
 
 function byUserIdEquals(userId: string) {
 	return eq(clients.userId, userId);
