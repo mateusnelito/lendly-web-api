@@ -1,11 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { CreateLoanBody } from '../schemas/loans.schema';
-import { createClient } from '../services/clients.service';
-import { createLoan } from '../services/loans.service';
+import {
+	CreateLoanBody,
+	LoanIdParams,
+	UpdateLoanBody,
+} from '../schemas/loans.schema';
+import { createLoan, updateLoan } from '../services/loans.service';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
-import { ensureClientContactsIsAvailable } from '../validators/clients.validator';
 import {
 	ensureClientIdExists,
+	ensureLoanExists,
 	validateLoanData,
 } from '../validators/loans.validator';
 
@@ -24,5 +27,24 @@ export async function storeLoanController(
 	return reply.status(HttpStatusCodes.CREATED).send({
 		status: 'success',
 		data: newLoan,
+	});
+}
+
+export async function updateLoanController(
+	request: FastifyRequest<{ Params: LoanIdParams; Body: UpdateLoanBody }>,
+	reply: FastifyReply
+) {
+	const { id: userId } = request.user;
+	const { id } = request.params;
+	const { body: data } = request;
+
+	await ensureLoanExists(id, userId);
+	await validateLoanData(data);
+
+	const updatedLoan = await updateLoan(userId, id, data);
+
+	return reply.status(HttpStatusCodes.CREATED).send({
+		status: 'success',
+		data: updatedLoan,
 	});
 }

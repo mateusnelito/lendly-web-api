@@ -1,4 +1,4 @@
-import { CreateLoanBody } from '../schemas/loans.schema';
+import { CreateLoanBody, UpdateLoanBody } from '../schemas/loans.schema';
 import { findClientById } from '../services/clients.service';
 import ClientError from '../utils/client-error.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
@@ -16,7 +16,7 @@ export async function ensureClientIdExists(clientId: number, userId: string) {
 	return client;
 }
 
-export async function validateLoanData(data: CreateLoanBody) {
+export async function validateLoanData(data: CreateLoanBody | UpdateLoanBody) {
 	const {
 		baseDueDate: baseDueDateString,
 		hasInterest,
@@ -59,4 +59,16 @@ export async function validateLoanData(data: CreateLoanBody) {
 				],
 			}
 		);
+}
+
+export async function ensureLoanExists(id: number, userId: string) {
+	const loan = await findClientById(id, userId);
+
+	if (!loan)
+		throw new ClientError(
+			'Empréstimo não registrado.',
+			HttpStatusCodes.NOT_FOUND
+		);
+
+	return loan;
 }

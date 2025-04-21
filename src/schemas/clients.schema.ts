@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { nameRegex, phoneRegex } from '../utils/regex.util';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
@@ -12,7 +11,6 @@ import {
 	nameSchema,
 	phoneSchema,
 	sizeQueryStringSchema,
-	ulidSchema,
 	updatedAtSchema,
 } from './primitive.schema';
 import { userSchema } from './users.schema';
@@ -46,7 +44,7 @@ export const storeClientSchema = {
 		}),
 		400: validationErrorResponseSchema,
 		401: businessErrorResponseSchema,
-		409: validationErrorResponseSchema,
+		// 409: validationErrorResponseSchema,
 	},
 };
 
