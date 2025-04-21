@@ -5,7 +5,12 @@ import {
 	LoanIdParams,
 	UpdateLoanBody,
 } from '../schemas/loans.schema';
-import { createLoan, findLoans, updateLoan } from '../services/loans.service';
+import {
+	createLoan,
+	findLoanByIdOrThrownError,
+	findLoans,
+	updateLoan,
+} from '../services/loans.service';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
 	ensureClientIdExists,
@@ -62,5 +67,20 @@ export async function getLoansController(
 	return reply.status(HttpStatusCodes.OK).send({
 		status: 'success',
 		data: loans,
+	});
+}
+
+export async function getLoanController(
+	request: FastifyRequest<{ Params: LoanIdParams }>,
+	reply: FastifyReply
+) {
+	const { id: userId } = request.user;
+	const { id } = request.params;
+
+	const loan = await findLoanByIdOrThrownError(id, userId);
+
+	return reply.status(HttpStatusCodes.OK).send({
+		status: 'success',
+		data: loan,
 	});
 }

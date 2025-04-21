@@ -106,6 +106,30 @@ export const getLoansSchema = {
 	},
 };
 
+export const getLoanSchema = {
+	summary: 'Get a user loan.',
+	tags: ['loans'],
+	params: loanIdParamsSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: loanSchema.omit({ userId: true }).extend({
+				// TODO: Replace with correct payment schema
+				payment: z
+					.object({
+						id: intPositiveNumberSchema,
+						amount: intPositiveNumberSchema,
+						date: updatedAtSchema,
+						deletedAt: updatedAtSchema,
+					})
+					.nullable(),
+			}),
+		}),
+		401: businessErrorResponseSchema,
+		404: businessErrorResponseSchema,
+	},
+};
+
 export type CreateLoanBody = z.infer<typeof createLoanBodySchema>;
 export type UpdateLoanBody = z.infer<typeof updateLoanBodySchema>;
 export type LoanIdParams = z.infer<typeof loanIdParamsSchema>;

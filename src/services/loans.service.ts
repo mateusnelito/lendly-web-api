@@ -1,12 +1,15 @@
 import { and, desc, eq, lt } from 'drizzle-orm';
 import { db } from '../db';
 import { loans } from '../db/schema/loans';
+import { payments } from '../db/schema/payments';
 import {
 	CreateLoanBody,
 	GetLoansQueryString,
 	UpdateLoanBody,
 } from '../schemas/loans.schema';
+import ClientError from '../utils/client-error.util';
 import { byUserIdEquals } from '../utils/drizzle.util';
+import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import { getNextCursor } from '../utils/pagination.util';
 
 const SELECT_LOAN_FIELDS = {
@@ -88,4 +91,30 @@ export async function findLoans(userId: string, params: GetLoansQueryString) {
 	const nextCursor = getNextCursor(userLoans, size);
 
 	return { loans: userLoans, nextCursor };
+}
+
+export async function findLoanByIdOrThrownError(id: number, userId: string) {
+	const [loan] = await db
+		.select({
+			...SELECT_LOAN_FIELDS,
+			payment: {
+				id: payments.id,
+				amount: payments.amount,
+				date: payments.date,
+				deletedAt: payments.deletedAt,
+			},
+		})
+		.from(loans)
+		.leftJoin(payments, eq(loans.id, payments.loanId))
+		.where(and(eq(loans.id, id), eq(loans.userId, userId)))
+		.limit(1);
+
+	if (!loan) {
+		throw new ClientError(
+			'Empréstimo não registrado.',
+			HttpStatusCodes.NOT_FOUND
+		);
+	}
+
+	return loan;
 }
