@@ -21,10 +21,6 @@ export default fastifyPlugin(async server => {
 					description: 'User registration and login.',
 				},
 				{
-					name: 'users',
-					description: 'Authenticated user info.',
-				},
-				{
 					name: 'clients',
 					description: 'Client management.',
 				},
