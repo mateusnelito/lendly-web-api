@@ -1,4 +1,4 @@
-import { and, desc, eq, lt } from 'drizzle-orm';
+import { and, desc, eq, isNull, lt } from 'drizzle-orm';
 import { db } from '../db';
 import { loans } from '../db/schema/loans';
 import { payments } from '../db/schema/payments';
@@ -92,8 +92,14 @@ export async function findLoanByIdOrThrownError(id: number, userId: string) {
 			},
 		})
 		.from(loans)
-		.leftJoin(payments, eq(loans.id, payments.loanId))
-		.where(and(eq(loans.id, id), eq(loans.userId, userId)))
+		.innerJoin(payments, eq(loans.id, payments.loanId))
+		.where(
+			and(
+				eq(loans.id, id),
+				eq(loans.userId, userId),
+				isNull(payments.deletedAt)
+			)
+		)
 		.limit(1);
 
 	if (!loan) {

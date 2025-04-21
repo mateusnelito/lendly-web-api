@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { clientSchema } from './clients.schema';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
@@ -53,6 +54,23 @@ export const deletePaymentSchema = {
 	tags: ['payments'],
 	params: paymentIdParamsSchema,
 	response: {
+		404: businessErrorResponseSchema,
+	},
+};
+
+export const getPaymentSchema = {
+	summary: 'Get a user payment.',
+	tags: ['payments'],
+	params: paymentIdParamsSchema,
+	response: {
+		200: z.object({
+			status: z.string().default('success'),
+			data: paymentSchema.omit({ userId: true, loanId: true }).extend({
+				loan: loanSchema.omit({ userId: true, clientId: true }).extend({
+					client: clientSchema.omit({ userId: true }),
+				}),
+			}),
+		}),
 		404: businessErrorResponseSchema,
 	},
 };

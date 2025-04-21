@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { CreatePaymentBody, PaymentIdParams } from '../schemas/payments.schema';
-import { createPayment, deletePayment } from '../services/payments.service';
+import {
+	createPayment,
+	deletePayment,
+	findPaymentByIdOrThrownError,
+} from '../services/payments.service';
 import { ResponseStatus } from '../types/response-status.type';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
 import {
@@ -37,4 +41,19 @@ export async function deletePaymentController(
 	await deletePayment(id, userId);
 
 	return reply.status(HttpStatusCodes.NO_CONTENT).send();
+}
+
+export async function getPaymentController(
+	request: FastifyRequest<{ Params: PaymentIdParams }>,
+	reply: FastifyReply
+) {
+	const { id: userId } = request.user;
+	const { id } = request.params;
+
+	const payment = await findPaymentByIdOrThrownError(id, userId);
+
+	return reply.status(HttpStatusCodes.OK).send({
+		status: ResponseStatus.SUCCESS,
+		data: payment,
+	});
 }
