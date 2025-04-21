@@ -19,6 +19,7 @@ export const payments = pgTable(
 			.references(() => loans.id, { onDelete: 'cascade' }),
 		amount: integer('amount').notNull(),
 		date: timestamp('created_at').notNull().defaultNow(),
+		deletedAt: timestamp('deleted_at'),
 	},
 	t => [index().on(t.loanId), index().on(t.date)]
 );
