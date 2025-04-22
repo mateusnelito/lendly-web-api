@@ -71,6 +71,13 @@
       "when": 1745247389003,
       "tag": "0009_chief_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1745332130379,
+      "tag": "0010_ambitious_madelyne_pryor",
+      "breakpoints": true
     }
   ]
 }

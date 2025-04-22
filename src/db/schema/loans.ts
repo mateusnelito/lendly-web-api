@@ -18,10 +18,13 @@ export const loans = pgTable(
 		id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
 		clientId: integer('client_id')
 			.notNull()
-			.references(() => clients.id, { onDelete: 'cascade' }),
+			.references(() => clients.id, {
+				onDelete: 'cascade',
+				onUpdate: 'cascade',
+			}),
 		userId: varchar('user_id', { length: 26 })
 			.notNull()
-			.references(() => users.id, { onDelete: 'cascade' }),
+			.references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		amountGiven: integer('amount_given').notNull(),
 		baseDueDate: date('base_due_date').notNull(),
 		isPaid: boolean('is_paid').notNull().default(false),

@@ -16,7 +16,7 @@ export const clients = pgTable(
 		id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
 		userId: varchar('user_id', { length: 26 })
 			.notNull()
-			.references(() => users.id, { onDelete: 'cascade' }),
+			.references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		name: varchar('name', { length: 50 }).notNull(),
 		email: varchar('email', { length: 255 }),
 		phone: varchar('phone', { length: 9 }).notNull(),

@@ -15,10 +15,10 @@ export const payments = pgTable(
 		id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
 		userId: varchar('user_id', { length: 26 })
 			.notNull()
-			.references(() => users.id),
+			.references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		loanId: integer('loan_id')
 			.notNull()
-			.references(() => loans.id, { onDelete: 'cascade' }),
+			.references(() => loans.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		amount: integer('amount').notNull(),
 		date: timestamp('created_at').notNull().defaultNow(),
 		deletedAt: timestamp('deleted_at'),
