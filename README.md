@@ -1,3 +1,5 @@
+> 🇧🇷 Para ler este README em português, [clique aqui](./README.pt.md).
+
 # Lendly System
 
 **Lendly** is a minimalist backend application for managing informal loans. Built with **Node.js**, **Fastify**, **Drizzle ORM**, and **Zod**, it is designed to provide practical and efficient control over personal lending, particularly in family or informal contexts where traditional tracking methods (like notebooks or spreadsheets) are prone to errors.
