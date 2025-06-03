@@ -6,34 +6,32 @@ import {
 	getClientsController,
 	updateClientController,
 } from '../controllers/clients.controller';
-import {
-	createClientSchema,
-	getClientSchema,
-	getClientsSchema,
-	updateClientSchema,
-} from '../schemas/clients.schema';
+import { createClientRouteSchema } from '../schemas/clients/create.schema';
+import { getClientRouteSchema } from '../schemas/clients/detail.schema';
+import { getClientsRouteSchema } from '../schemas/clients/list.schema';
+import { updateClientRouteSchema } from '../schemas/clients/update.schema';
 
 export const clientRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/', {
-		schema: createClientSchema,
+		schema: createClientRouteSchema,
 		preHandler: [server.authenticate],
 		handler: createClientController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().put('/:id', {
-		schema: updateClientSchema,
+		schema: updateClientRouteSchema,
 		preHandler: [server.authenticate],
 		handler: updateClientController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/:id', {
-		schema: getClientSchema,
+		schema: getClientRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getClientController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/', {
-		schema: getClientsSchema,
+		schema: getClientsRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getClientsController,
 	});

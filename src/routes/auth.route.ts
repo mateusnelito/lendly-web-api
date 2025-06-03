@@ -4,16 +4,17 @@ import {
 	loginUserController,
 	registerUserController,
 } from '../controllers/auth.controller';
-import { loginUserSchema, registerUserSchema } from '../schemas/auth.schema';
+import { loginUserRouteSchema } from '../schemas/auth/login.schema';
+import { registerUserRouteSchema } from '../schemas/auth/register.schema';
 
 export const authRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/register', {
-		schema: registerUserSchema,
+		schema: registerUserRouteSchema,
 		handler: registerUserController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().post('/login', {
-		schema: loginUserSchema,
+		schema: loginUserRouteSchema,
 		handler: loginUserController,
 	});
 };

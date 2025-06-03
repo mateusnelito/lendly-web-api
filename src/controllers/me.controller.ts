@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UpdateMeBody } from '../schemas/me.schema';
+import { UpdateMeBody } from '../schemas/me/update.schema';
 import {
 	deleteUser,
 	findUserById,

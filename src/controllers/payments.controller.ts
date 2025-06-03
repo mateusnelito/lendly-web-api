@@ -1,9 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import {
-	CreatePaymentBody,
-	GetPaymentsQueryString,
-	PaymentIdParams,
-} from '../schemas/payments.schema';
+import { CreatePaymentBody } from '../schemas/payments/create.schema';
+import { GetPaymentParams } from '../schemas/payments/detail.schema';
+import { GetPaymentsQuery } from '../schemas/payments/list.schema';
+import { DeletePaymentParams } from '../schemas/payments/remove.schema';
 import {
 	createPayment,
 	deletePayment,
@@ -35,7 +34,7 @@ export async function createPaymentController(
 }
 
 export async function deletePaymentController(
-	request: FastifyRequest<{ Params: PaymentIdParams }>,
+	request: FastifyRequest<{ Params: DeletePaymentParams }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -49,7 +48,7 @@ export async function deletePaymentController(
 }
 
 export async function getPaymentController(
-	request: FastifyRequest<{ Params: PaymentIdParams }>,
+	request: FastifyRequest<{ Params: GetPaymentParams }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -64,7 +63,7 @@ export async function getPaymentController(
 }
 
 export async function getPaymentsController(
-	request: FastifyRequest<{ Querystring: GetPaymentsQueryString }>,
+	request: FastifyRequest<{ Querystring: GetPaymentsQuery }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;

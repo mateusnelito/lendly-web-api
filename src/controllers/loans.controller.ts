@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { CreateLoanBody } from '../schemas/loans/create.schema';
+import { GetLoanParams } from '../schemas/loans/detail.schema';
+import { GetLoansQuery } from '../schemas/loans/list.schema';
 import {
-	CreateLoanBody,
-	GetLoansQueryString,
-	LoanIdParams,
 	UpdateLoanBody,
-} from '../schemas/loans.schema';
+	UpdateLoanParams,
+} from '../schemas/loans/update.schema';
 import {
 	createLoan,
 	findLoanByIdOrThrownError,
@@ -38,7 +39,7 @@ export async function createLoanController(
 }
 
 export async function updateLoanController(
-	request: FastifyRequest<{ Params: LoanIdParams; Body: UpdateLoanBody }>,
+	request: FastifyRequest<{ Params: UpdateLoanParams; Body: UpdateLoanBody }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -57,7 +58,7 @@ export async function updateLoanController(
 }
 
 export async function getLoansController(
-	request: FastifyRequest<{ Querystring: GetLoansQueryString }>,
+	request: FastifyRequest<{ Querystring: GetLoansQuery }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -72,7 +73,7 @@ export async function getLoansController(
 }
 
 export async function getLoanController(
-	request: FastifyRequest<{ Params: LoanIdParams }>,
+	request: FastifyRequest<{ Params: GetLoanParams }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;

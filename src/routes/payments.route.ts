@@ -6,34 +6,32 @@ import {
 	getPaymentController,
 	getPaymentsController,
 } from '../controllers/payments.controller';
-import {
-	createPaymentSchema,
-	deletePaymentSchema,
-	getPaymentSchema,
-	getPaymentsSchema,
-} from '../schemas/payments.schema';
+import { createPaymentRouteSchema } from '../schemas/payments/create.schema';
+import { getPaymentRouteSchema } from '../schemas/payments/detail.schema';
+import { getPaymentsRouteSchema } from '../schemas/payments/list.schema';
+import { deletePaymentRouteSchema } from '../schemas/payments/remove.schema';
 
 export const paymentRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/', {
-		schema: createPaymentSchema,
+		schema: createPaymentRouteSchema,
 		preHandler: [server.authenticate],
 		handler: createPaymentController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().delete('/:id', {
-		schema: deletePaymentSchema,
+		schema: deletePaymentRouteSchema,
 		preHandler: [server.authenticate],
 		handler: deletePaymentController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/:id', {
-		schema: getPaymentSchema,
+		schema: getPaymentRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getPaymentController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/', {
-		schema: getPaymentsSchema,
+		schema: getPaymentsRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getPaymentsController,
 	});

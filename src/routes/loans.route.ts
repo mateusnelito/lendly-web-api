@@ -6,34 +6,32 @@ import {
 	getLoansController,
 	updateLoanController,
 } from '../controllers/loans.controller';
-import {
-	createLoanSchema,
-	getLoanSchema,
-	getLoansSchema,
-	updateLoanSchema,
-} from '../schemas/loans.schema';
+import { createLoanRouteSchema } from '../schemas/loans/create.schema';
+import { getLoanRouteSchema } from '../schemas/loans/detail.schema';
+import { getLoansRouteSchema } from '../schemas/loans/list.schema';
+import { updateLoanRouteSchema } from '../schemas/loans/update.schema';
 
 export const loanRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().post('/', {
-		schema: createLoanSchema,
+		schema: createLoanRouteSchema,
 		preHandler: [server.authenticate],
 		handler: createLoanController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().put('/:id', {
-		schema: updateLoanSchema,
+		schema: updateLoanRouteSchema,
 		preHandler: [server.authenticate],
 		handler: updateLoanController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/', {
-		schema: getLoansSchema,
+		schema: getLoansRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getLoansController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().get('/:id', {
-		schema: getLoanSchema,
+		schema: getLoanRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getLoanController,
 	});

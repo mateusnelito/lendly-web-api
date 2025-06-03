@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { LoginUserBody, RegisterUserBody } from '../schemas/auth.schema';
+import { LoginUserBody } from '../schemas/auth/login.schema';
+import { RegisterUserBody } from '../schemas/auth/register.schema';
 import { authUser } from '../services/auth.service';
 import { createUser } from '../services/users.service';
 import { ResponseStatus } from '../types/response-status.type';

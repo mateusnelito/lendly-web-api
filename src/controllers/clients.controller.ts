@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { CreateClientBody } from '../schemas/clients/create.schema';
+import { GetClientParams } from '../schemas/clients/detail.schema';
+import { GetClientsQuery } from '../schemas/clients/list.schema';
 import {
-	ClientIdParams,
-	CreateClientBody,
-	GetClientsQueryString,
 	UpdateClientBody,
-} from '../schemas/clients.schema';
+	UpdateClientParams,
+} from '../schemas/clients/update.schema';
 import {
 	createClient,
 	findClientByIdOrThrownError,
@@ -36,7 +37,10 @@ export async function createClientController(
 }
 
 export async function updateClientController(
-	request: FastifyRequest<{ Params: ClientIdParams; Body: UpdateClientBody }>,
+	request: FastifyRequest<{
+		Params: UpdateClientParams;
+		Body: UpdateClientBody;
+	}>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -55,7 +59,7 @@ export async function updateClientController(
 }
 
 export async function getClientController(
-	request: FastifyRequest<{ Params: ClientIdParams }>,
+	request: FastifyRequest<{ Params: GetClientParams }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;
@@ -70,7 +74,7 @@ export async function getClientController(
 }
 
 export async function getClientsController(
-	request: FastifyRequest<{ Querystring: GetClientsQueryString }>,
+	request: FastifyRequest<{ Querystring: GetClientsQuery }>,
 	reply: FastifyReply
 ) {
 	const { id: userId } = request.user;

@@ -29,7 +29,8 @@ export default fastifyPlugin(async (server: FastifyInstance) => {
 				.send({ status: ResponseStatus.FAIL, data: { message, errors, code } });
 		}
 
-		console.error(err);
+		console.log(err);
+
 		return reply.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send({
 			status: ResponseStatus.FAIL,
 			data: {

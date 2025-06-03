@@ -5,27 +5,25 @@ import {
 	getMeController,
 	updateMeController,
 } from '../controllers/me.controller';
-import {
-	deleteMeSchema,
-	getMeSchema,
-	updateMeSchema,
-} from '../schemas/me.schema';
+import { getMeRouteSchema } from '../schemas/me/detail.schema';
+import { deleteMeRouteSchema } from '../schemas/me/remove.schema';
+import { updateMeRouteSchema } from '../schemas/me/update.schema';
 
 export const meRoutes: FastifyPluginAsync = async server => {
 	server.withTypeProvider<ZodTypeProvider>().get('/', {
-		schema: getMeSchema,
+		schema: getMeRouteSchema,
 		preHandler: [server.authenticate],
 		handler: getMeController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().delete('/', {
-		schema: deleteMeSchema,
+		schema: deleteMeRouteSchema,
 		preHandler: [server.authenticate],
 		handler: deleteMeController,
 	});
 
 	server.withTypeProvider<ZodTypeProvider>().put('/', {
-		schema: updateMeSchema,
+		schema: updateMeRouteSchema,
 		preHandler: [server.authenticate],
 		handler: updateMeController,
 	});

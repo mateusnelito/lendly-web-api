@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import { env } from './env';
-import errorHandlerPlugin from './plugins/error-handler.plugin';
 import fastifyCorsPlugin from './plugins/fastify-cors.plugin';
+import fastifyErrorHandlerPlugin from './plugins/fastify-error-handler.plugin';
 import fastifyHelmetPlugin from './plugins/fastify-helmet.plugin';
 import fastifyJwtPlugin from './plugins/fastify-jwt.plugin';
 import fastifySwaggerPlugin from './plugins/fastify-swagger.plugin';
@@ -14,7 +14,7 @@ const server = fastify();
 server.register(fastifyHelmetPlugin);
 server.register(fastifyCorsPlugin);
 server.register(fastifyTypeProviderZodPlugin);
-server.register(errorHandlerPlugin);
+server.register(fastifyErrorHandlerPlugin);
 server.register(fastifySwaggerPlugin);
 server.register(fastifyJwtPlugin);
 
