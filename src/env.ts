@@ -1,9 +1,15 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-	// APP
+	// ENVIRONMENT
+	NODE_ENV: z
+		.enum(['development', 'production', 'test'])
+		.default('development'),
 	PORT: z.coerce.number().int().positive().default(3000),
-	DATABASE_URL: z.string().url(),
+
+	// DATABASE
+	DATABASE_URL_DEV: z.string().url(),
+	DATABASE_URL_PROD: z.string().url(),
 
 	// JWT
 	JWT_SECRET: z.string(),

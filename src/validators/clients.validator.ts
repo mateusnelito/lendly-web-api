@@ -13,7 +13,7 @@ export async function ensureClientContactsIsAvailable(
 
 	const client = await findClientByPhoneOrOptionalEmail(params);
 
-	if (client.phone === phone)
+	if (client?.phone === phone)
 		throw new ClientError('Telefone inválido', HttpStatusCodes.CONFLICT, {
 			phone: ['Já existe um cliente com este telefone'],
 		});
