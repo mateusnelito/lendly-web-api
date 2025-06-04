@@ -12,7 +12,6 @@ export const getLoansRouteSchema = {
 			status: z.string().default('success'),
 			data: z.object({
 				loans: z.array(loanSchema),
-				nextCursor: numberIntPositiveSchema.optional(),
 			}),
 		}),
 		401: businessErrorResponseSchema,

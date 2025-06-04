@@ -11,7 +11,6 @@ export const getPaymentsRouteSchema = {
 			status: z.string().default('success'),
 			data: z.object({
 				payments: z.array(paymentSchema),
-				nextCursor: numberIntPositiveSchema.optional(),
 			}),
 		}),
 	},

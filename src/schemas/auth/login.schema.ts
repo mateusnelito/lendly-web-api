@@ -13,6 +13,7 @@ export const loginUserRouteSchema = {
 	summary: 'Login a user',
 	description: 'Authenticate user credentials',
 	tags: ['auth'],
+	security: [],
 	body: loginUserBodySchema,
 	response: {
 		200: z.object({

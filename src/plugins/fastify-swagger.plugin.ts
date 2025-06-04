@@ -8,10 +8,10 @@ export default fastifyPlugin(async server => {
 		swagger: {
 			info: {
 				title: 'Lendly API',
-				description: 'API for managing informal loans and payments per user.',
+				description: 'API for managing informal loans and payments per user',
 				version: '1.0.0',
 			},
-			host: 'localhost:3000',
+			host: 'http://localhost:3000',
 			schemes: ['http'],
 			consumes: ['application/json'],
 			produces: ['application/json'],
@@ -37,6 +37,14 @@ export default fastifyPlugin(async server => {
 					description: 'Authenticated user details and management.',
 				},
 			],
+			securityDefinitions: {
+				bearerAuth: {
+					type: 'apiKey',
+					name: 'Authorization',
+					in: 'header',
+				},
+			},
+			security: [{ bearerAuth: [] }],
 		},
 		transform: jsonSchemaTransform,
 	});

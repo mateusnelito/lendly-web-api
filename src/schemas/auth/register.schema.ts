@@ -12,6 +12,7 @@ export const registerUserRouteSchema = {
 	summary: 'Register a new user',
 	description: 'Add a new user account to the system',
 	tags: ['auth'],
+	security: [],
 	body: registerUserBodySchema,
 	response: {
 		201: z.object({

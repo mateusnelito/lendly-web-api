@@ -12,7 +12,6 @@ export const getClientsRouteSchema = {
 			status: z.string().default('success'),
 			data: z.object({
 				clients: z.array(clientSchema),
-				nextCursor: numberIntPositiveSchema.optional(),
 			}),
 		}),
 		401: businessErrorResponseSchema,
