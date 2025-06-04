@@ -2,13 +2,13 @@ import { z } from 'zod';
 import { businessErrorResponseSchema } from '../error.schema';
 import { loanSchema } from '../loans.schema';
 import {
-	intIdParamsSchema,
-	intPositiveNumberSchema,
-	updatedAtSchema,
+	coercedNumberIntSchema,
+	nullableTimestampSchema,
+	numberIntPositiveSchema,
 } from '../primitive.schema';
 
 const getLoanParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 export const getLoanRouteSchema = {
@@ -19,14 +19,14 @@ export const getLoanRouteSchema = {
 	response: {
 		200: z.object({
 			status: z.string().default('success'),
-			data: loanSchema.omit({ userId: true }).extend({
+			data: loanSchema.extend({
 				// TODO: Replace with correct payment schema
 				payment: z
 					.object({
-						id: intPositiveNumberSchema,
-						amount: intPositiveNumberSchema,
-						date: updatedAtSchema,
-						deletedAt: updatedAtSchema,
+						id: numberIntPositiveSchema,
+						amount: numberIntPositiveSchema,
+						date: nullableTimestampSchema,
+						deletedAt: nullableTimestampSchema,
 					})
 					.nullable(),
 			}),

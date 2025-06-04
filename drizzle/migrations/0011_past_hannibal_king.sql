@@ -1,0 +1,1 @@
+ALTER TABLE "loans" ALTER COLUMN "notes" SET DATA TYPE varchar(100);

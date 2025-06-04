@@ -3,18 +3,17 @@ import {
 	createdAtSchema,
 	emailSchema,
 	nameSchema,
-	passwordSchema,
-	ulidSchema,
-	updatedAtSchema,
+	nullableTimestampSchema,
+	strongPasswordSchema,
 } from './primitive.schema';
 
 export const userSchema = z.object({
-	id: ulidSchema,
+	id: z.string().trim().ulid(),
 	name: nameSchema,
 	email: emailSchema,
 	isDeleted: z.boolean().default(false).optional(),
 	createdAt: createdAtSchema,
-	updatedAt: updatedAtSchema,
+	updatedAt: nullableTimestampSchema,
 });
 
-export const userPasswordSchema = passwordSchema;
+export const userPasswordSchema = strongPasswordSchema;

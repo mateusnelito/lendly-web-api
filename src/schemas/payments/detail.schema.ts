@@ -3,10 +3,10 @@ import { clientSchema } from '../clients.schema';
 import { businessErrorResponseSchema } from '../error.schema';
 import { loanSchema } from '../loans.schema';
 import { paymentSchema } from '../payments.schema';
-import { intIdParamsSchema } from '../primitive.schema';
+import { coercedNumberIntSchema } from '../primitive.schema';
 
 const getPaymentParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 export const getPaymentRouteSchema = {
@@ -17,9 +17,9 @@ export const getPaymentRouteSchema = {
 	response: {
 		200: z.object({
 			status: z.string().default('success'),
-			data: paymentSchema.omit({ userId: true, loanId: true }).extend({
-				loan: loanSchema.omit({ userId: true, clientId: true }).extend({
-					client: clientSchema.omit({ userId: true }),
+			data: paymentSchema.omit({ loanId: true }).extend({
+				loan: loanSchema.omit({ clientId: true }).extend({
+					client: clientSchema,
 				}),
 			}),
 		}),

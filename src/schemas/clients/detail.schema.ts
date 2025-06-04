@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import { clientSchema } from '../clients.schema';
 import { businessErrorResponseSchema } from '../error.schema';
-import { intIdParamsSchema } from '../primitive.schema';
+import { coercedNumberIntSchema } from '../primitive.schema';
 
 const getClientRouteParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 export const getClientRouteSchema = {
@@ -15,7 +15,7 @@ export const getClientRouteSchema = {
 	response: {
 		200: z.object({
 			status: z.string().default('success'),
-			data: clientSchema.omit({ userId: true }),
+			data: clientSchema,
 		}),
 		401: businessErrorResponseSchema,
 		404: businessErrorResponseSchema,

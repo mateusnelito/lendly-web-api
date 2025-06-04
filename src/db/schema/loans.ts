@@ -30,7 +30,7 @@ export const loans = pgTable(
 		isPaid: boolean('is_paid').notNull().default(false),
 		hasInterest: boolean('has_interest').notNull().default(false),
 		interestValuePerMonth: integer('interest_value_per_month'),
-		notes: varchar('notes', { length: 500 }),
+		notes: varchar('notes', { length: 100 }),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
 	},

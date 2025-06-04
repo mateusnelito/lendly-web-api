@@ -1,23 +1,27 @@
 import { z } from 'zod';
+import { safeDescriptionRegex } from '../utils/regex.util';
 import { clientSchema } from './clients.schema';
 import {
 	createdAtSchema,
-	descriptionSchema,
-	intPositiveNumberSchema,
-	updatedAtSchema,
+	nullableTimestampSchema,
+	numberIntPositiveSchema,
 } from './primitive.schema';
-import { userSchema } from './users.schema';
 
 export const loanSchema = z.object({
-	id: intPositiveNumberSchema,
+	id: numberIntPositiveSchema,
 	clientId: clientSchema.shape.id,
-	userId: userSchema.shape.id,
-	amountGiven: intPositiveNumberSchema,
+	amountGiven: numberIntPositiveSchema,
 	baseDueDate: z.string().date(),
 	isPaid: z.boolean().default(false),
 	hasInterest: z.boolean().default(false),
-	interestValuePerMonth: intPositiveNumberSchema.nullable(),
-	notes: descriptionSchema.nullable(),
+	interestValuePerMonth: numberIntPositiveSchema.nullable(),
+	notes: z
+		.string()
+		.trim()
+		.min(3)
+		.max(100)
+		.regex(safeDescriptionRegex)
+		.nullable(),
 	createdAt: createdAtSchema,
-	updatedAt: updatedAtSchema,
+	updatedAt: nullableTimestampSchema,
 });

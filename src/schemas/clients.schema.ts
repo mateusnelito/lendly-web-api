@@ -1,22 +1,18 @@
 import { z } from 'zod';
+import { angolanPhoneRegex } from '../utils/regex.util';
 import {
 	createdAtSchema,
 	emailSchema,
-	intPositiveNumberSchema,
 	nameSchema,
-	phoneSchema,
-	updatedAtSchema,
+	nullableTimestampSchema,
+	numberIntPositiveSchema,
 } from './primitive.schema';
-import { userSchema } from './users.schema';
-
-export const clientNameSchema = nameSchema;
 
 export const clientSchema = z.object({
-	id: intPositiveNumberSchema,
-	userId: userSchema.shape.id,
-	name: clientNameSchema,
+	id: numberIntPositiveSchema,
+	name: nameSchema,
 	email: emailSchema.nullable(),
-	phone: phoneSchema,
+	phone: z.string().trim().length(9).regex(angolanPhoneRegex),
 	createdAt: createdAtSchema,
-	updatedAt: updatedAtSchema,
+	updatedAt: nullableTimestampSchema,
 });

@@ -20,7 +20,7 @@ export const createLoanRouteSchema = {
 	response: {
 		201: z.object({
 			status: z.string().default('success'),
-			data: loanSchema.omit({ userId: true }),
+			data: loanSchema,
 		}),
 		400: validationErrorResponseSchema,
 		404: validationErrorResponseSchema,

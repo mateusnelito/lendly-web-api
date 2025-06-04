@@ -4,7 +4,7 @@ import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from '../error.schema';
-import { intIdParamsSchema } from '../primitive.schema';
+import { coercedNumberIntSchema } from '../primitive.schema';
 
 const updateClientBodySchema = z.object({
 	name: clientSchema.shape.name,
@@ -13,7 +13,7 @@ const updateClientBodySchema = z.object({
 });
 
 const updateClientRouteParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 export const updateClientRouteSchema = {
@@ -25,7 +25,7 @@ export const updateClientRouteSchema = {
 	response: {
 		200: z.object({
 			status: z.string().default('success'),
-			data: clientSchema.omit({ userId: true }),
+			data: clientSchema,
 		}),
 		400: validationErrorResponseSchema,
 		401: businessErrorResponseSchema,

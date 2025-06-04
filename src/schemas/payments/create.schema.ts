@@ -2,12 +2,11 @@ import { z } from 'zod';
 import { validationErrorResponseSchema } from '../error.schema';
 import { loanSchema } from '../loans.schema';
 import { paymentSchema } from '../payments.schema';
-import { stringDateSchema } from '../primitive.schema';
 
 const createPaymentBodySchema = z.object({
 	loanId: paymentSchema.shape.loanId,
 	amount: paymentSchema.shape.amount,
-	date: stringDateSchema.optional(),
+	date: z.string().date().optional(),
 });
 
 export const createPaymentRouteSchema = {
@@ -18,8 +17,8 @@ export const createPaymentRouteSchema = {
 	response: {
 		201: z.object({
 			status: z.string().default('success'),
-			data: paymentSchema.omit({ userId: true }).extend({
-				loan: loanSchema.omit({ userId: true }),
+			data: paymentSchema.extend({
+				loan: loanSchema,
 			}),
 		}),
 		400: validationErrorResponseSchema,

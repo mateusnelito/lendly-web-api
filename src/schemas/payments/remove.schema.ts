@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { businessErrorResponseSchema } from '../error.schema';
-import { intIdParamsSchema } from '../primitive.schema';
+import { coercedNumberIntSchema } from '../primitive.schema';
 
 const deletePaymentParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 export const deletePaymentRouteSchema = {

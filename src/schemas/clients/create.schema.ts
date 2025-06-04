@@ -19,7 +19,7 @@ export const createClientRouteSchema = {
 	response: {
 		201: z.object({
 			status: z.string().default('success'),
-			data: clientSchema.omit({ userId: true }),
+			data: clientSchema,
 		}),
 		400: validationErrorResponseSchema,
 		401: businessErrorResponseSchema,

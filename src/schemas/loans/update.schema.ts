@@ -4,10 +4,10 @@ import {
 	validationErrorResponseSchema,
 } from '../error.schema';
 import { loanSchema } from '../loans.schema';
-import { intIdParamsSchema } from '../primitive.schema';
+import { coercedNumberIntSchema } from '../primitive.schema';
 
 const updateLoanRouteParamsSchema = z.object({
-	id: intIdParamsSchema,
+	id: coercedNumberIntSchema,
 });
 
 const updateLoanBodySchema = z.object({
@@ -26,7 +26,7 @@ export const updateLoanRouteSchema = {
 	response: {
 		201: z.object({
 			status: z.string().default('success'),
-			data: loanSchema.omit({ userId: true }),
+			data: loanSchema,
 		}),
 		400: validationErrorResponseSchema,
 		404: businessErrorResponseSchema,
