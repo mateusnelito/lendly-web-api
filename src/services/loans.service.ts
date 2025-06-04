@@ -1,16 +1,12 @@
-import { and, desc, eq, isNull, lt } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { db } from '../db';
 import { loans } from '../db/schema/loans';
 import { payments } from '../db/schema/payments';
-import {
-	CreateLoanBody,
-	GetLoansQueryString,
-	UpdateLoanBody,
-} from '../schemas/loans.schema';
+import { CreateLoanBody } from '../schemas/loans/create.schema';
+import { UpdateLoanBody } from '../schemas/loans/update.schema';
 import ClientError from '../utils/client-error.util';
-import { SELECT_LOAN_FIELDS, byUserIdEquals } from '../utils/drizzle.util';
+import { SELECT_LOAN_FIELDS } from '../utils/drizzle.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
-import { getNextCursor } from '../utils/pagination.util';
 
 export async function createLoan(userId: string, data: CreateLoanBody) {
 	const interest = data.hasInterest ? data.interestValuePerMonth : null;
@@ -57,27 +53,14 @@ export async function updateLoan(
 	return loan;
 }
 
-export async function findLoans(userId: string, params: GetLoansQueryString) {
-	const { clientId, isPaid, hasInterest, size, cursor } = params;
-
-	const filtersClause = [
-		eq(loans.userId, userId),
-		clientId ? eq(loans.clientId, clientId) : undefined,
-		isPaid !== undefined ? eq(loans.isPaid, isPaid) : undefined,
-		hasInterest !== undefined ? eq(loans.hasInterest, hasInterest) : undefined,
-		cursor ? lt(loans.id, cursor) : undefined,
-	].filter(Boolean);
-
+export async function findLoans(userId: string) {
 	const userLoans = await db
 		.select(SELECT_LOAN_FIELDS)
 		.from(loans)
-		.where(and(...filtersClause))
-		.limit(size)
+		.where(eq(loans.userId, userId))
 		.orderBy(desc(loans.id));
 
-	const nextCursor = getNextCursor(userLoans, size);
-
-	return { loans: userLoans, nextCursor };
+	return { loans: userLoans };
 }
 
 export async function findLoanByIdOrThrownError(id: number, userId: string) {
@@ -92,19 +75,13 @@ export async function findLoanByIdOrThrownError(id: number, userId: string) {
 			},
 		})
 		.from(loans)
-		.innerJoin(payments, eq(loans.id, payments.loanId))
-		.where(
-			and(
-				eq(loans.id, id),
-				eq(loans.userId, userId),
-				isNull(payments.deletedAt)
-			)
-		)
+		.leftJoin(payments, eq(loans.id, payments.loanId))
+		.where(and(eq(loans.id, id), eq(loans.userId, userId)))
 		.limit(1);
 
 	if (!loan) {
 		throw new ClientError(
-			'Empréstimo não registrado.',
+			'Empréstimo não registrado',
 			HttpStatusCodes.NOT_FOUND
 		);
 	}

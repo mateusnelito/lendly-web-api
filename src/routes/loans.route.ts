@@ -1,11 +1,9 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import {
-	createLoanController,
-	getLoanController,
-	getLoansController,
-	updateLoanController,
-} from '../controllers/loans.controller';
+import { createLoanController } from '../controllers/loans/create.controller';
+import { getLoanController } from '../controllers/loans/detail.controller';
+import { getLoansController } from '../controllers/loans/list.controller';
+import { updateLoanController } from '../controllers/loans/update.controller';
 import { createLoanRouteSchema } from '../schemas/loans/create.schema';
 import { getLoanRouteSchema } from '../schemas/loans/detail.schema';
 import { getLoansRouteSchema } from '../schemas/loans/list.schema';

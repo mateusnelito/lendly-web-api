@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { businessErrorResponseSchema } from '../error.schema';
-import { loanSchema } from '../loans.schema';
 import { numberIntPositiveSchema } from '../primitive.schema';
+import { loanSchema } from './base.schema';
 
 export const getLoansRouteSchema = {
 	summary: 'Get a user loans',

@@ -8,7 +8,7 @@ import {
 } from './primitive.schema';
 
 export const userSchema = z.object({
-	id: z.string().trim().ulid(),
+	id: z.string().trim().cuid2(),
 	name: nameSchema,
 	email: emailSchema,
 	isDeleted: z.boolean().default(false).optional(),

@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { safeDescriptionRegex } from '../utils/regex.util';
-import { clientSchema } from './clients.schema';
+import { safeDescriptionRegex } from '../../utils/regex.util';
+import { clientSchema } from '../clients/base.schema';
 import {
 	createdAtSchema,
 	nullableTimestampSchema,
 	numberIntPositiveSchema,
-} from './primitive.schema';
+} from '../primitive.schema';
 
 export const loanSchema = z.object({
 	id: numberIntPositiveSchema,

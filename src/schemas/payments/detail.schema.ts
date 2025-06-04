@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { clientSchema } from '../clients.schema';
+import { clientSchema } from '../clients/base.schema';
 import { businessErrorResponseSchema } from '../error.schema';
-import { loanSchema } from '../loans.schema';
-import { paymentSchema } from '../payments.schema';
+import { loanSchema } from '../loans/base.schema';
 import { coercedNumberIntSchema } from '../primitive.schema';
+import { paymentSchema } from './base.schema';
 
 const getPaymentParamsSchema = z.object({
 	id: coercedNumberIntSchema,

@@ -1,9 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import {
-	loginUserController,
-	registerUserController,
-} from '../controllers/auth.controller';
+import { loginUserController } from '../controllers/auth/login.controller';
+import { registerUserController } from '../controllers/auth/register.controller';
 import { loginUserRouteSchema } from '../schemas/auth/login.schema';
 import { registerUserRouteSchema } from '../schemas/auth/register.schema';
 

@@ -1,11 +1,9 @@
 import { FastifyPluginAsync } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import {
-	createPaymentController,
-	deletePaymentController,
-	getPaymentController,
-	getPaymentsController,
-} from '../controllers/payments.controller';
+import { createPaymentController } from '../controllers/payments/create.controller';
+import { getPaymentController } from '../controllers/payments/detail.controller';
+import { getPaymentsController } from '../controllers/payments/list.controller';
+import { deletePaymentController } from '../controllers/payments/remove.controller';
 import { createPaymentRouteSchema } from '../schemas/payments/create.schema';
 import { getPaymentRouteSchema } from '../schemas/payments/detail.schema';
 import { getPaymentsRouteSchema } from '../schemas/payments/list.schema';

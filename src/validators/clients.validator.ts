@@ -9,23 +9,18 @@ import { HttpStatusCodes } from '../utils/http-status-codes.util';
 export async function ensureClientContactsIsAvailable(
 	params: FindClientByPhoneOrOptionalEmail
 ) {
-	const { phone, email, userId, excludedId } = params;
+	const { phone, email } = params;
 
-	const client = await findClientByPhoneOrOptionalEmail({
-		phone,
-		userId,
-		email,
-		excludedId,
-	});
+	const client = await findClientByPhoneOrOptionalEmail(params);
 
-	if (client?.phone === phone)
-		throw new ClientError('Telefone inválido.', HttpStatusCodes.CONFLICT, {
-			phone: ['Já existe um cliente com este telefone.'],
+	if (client.phone === phone)
+		throw new ClientError('Telefone inválido', HttpStatusCodes.CONFLICT, {
+			phone: ['Já existe um cliente com este telefone'],
 		});
 
 	if (email && client?.email === email)
-		throw new ClientError('Email inválido.', HttpStatusCodes.CONFLICT, {
-			email: ['Já existe um cliente com este email.'],
+		throw new ClientError('Email inválido', HttpStatusCodes.CONFLICT, {
+			email: ['Já existe um cliente com este email'],
 		});
 }
 
@@ -33,7 +28,7 @@ export async function ensureClientExists(id: number, userId: string) {
 	const client = await findClientById(id, userId);
 
 	if (!client)
-		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
+		throw new ClientError('Cliente não registrado', HttpStatusCodes.NOT_FOUND);
 
 	return client;
 }

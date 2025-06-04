@@ -1,12 +1,9 @@
-import { and, desc, eq, gte, isNull, lt, lte } from 'drizzle-orm';
+import { and, desc, eq, isNull } from 'drizzle-orm';
 import { db } from '../db';
 import { clients } from '../db/schema/clients';
 import { loans } from '../db/schema/loans';
 import { payments } from '../db/schema/payments';
-import {
-	CreatePaymentBody,
-	GetPaymentsQueryString,
-} from '../schemas/payments.schema';
+import { CreatePaymentBody } from '../schemas/payments/create.schema';
 import ClientError from '../utils/client-error.util';
 import {
 	SELECT_CLIENT_FIELDS,
@@ -14,7 +11,6 @@ import {
 	SELECT_PAYMENT_FIELDS,
 } from '../utils/drizzle.util';
 import { HttpStatusCodes } from '../utils/http-status-codes.util';
-import { getNextCursor } from '../utils/pagination.util';
 
 export async function createPayment(userId: string, data: CreatePaymentBody) {
 	const { loanId, amount, date } = data;
@@ -121,28 +117,12 @@ export async function findPaymentByIdOrThrownError(id: number, userId: string) {
 	};
 }
 
-export async function findPayments(
-	userId: string,
-	params: GetPaymentsQueryString
-) {
-	const { size, cursor, startDate, endDate, includeDeleted } = params;
-
-	const filtersClause = [
-		eq(payments.userId, userId),
-		cursor ? lt(payments.id, cursor) : undefined,
-		startDate ? gte(payments.date, new Date(startDate)) : undefined,
-		endDate ? lte(payments.date, new Date(endDate)) : undefined,
-		includeDeleted ? undefined : isNull(payments.deletedAt),
-	].filter(Boolean);
-
+export async function findPayments(userId: string) {
 	const userPayments = await db
 		.select(SELECT_PAYMENT_FIELDS)
 		.from(payments)
-		.where(and(...filtersClause))
-		.limit(size)
+		.where(eq(payments.userId, userId))
 		.orderBy(desc(payments.id));
 
-	const nextCursor = getNextCursor(userPayments, size);
-
-	return { payments: userPayments, nextCursor };
+	return { payments: userPayments };
 }

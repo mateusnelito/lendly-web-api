@@ -3,8 +3,8 @@ import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from '../error.schema';
-import { loanSchema } from '../loans.schema';
 import { coercedNumberIntSchema } from '../primitive.schema';
+import { loanSchema } from './base.schema';
 
 const updateLoanRouteParamsSchema = z.object({
 	id: coercedNumberIntSchema,

@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { clientSchema } from '../clients.schema';
 import {
 	businessErrorResponseSchema,
 	validationErrorResponseSchema,
 } from '../error.schema';
 import { coercedNumberIntSchema } from '../primitive.schema';
+import { clientSchema } from './base.schema';
 
 const updateClientBodySchema = z.object({
 	name: clientSchema.shape.name,

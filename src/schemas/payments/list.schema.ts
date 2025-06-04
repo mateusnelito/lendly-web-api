@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { paymentSchema } from '../payments.schema';
 import { numberIntPositiveSchema } from '../primitive.schema';
+import { paymentSchema } from './base.schema';
 
 export const getPaymentsRouteSchema = {
 	summary: 'Get a user payments',

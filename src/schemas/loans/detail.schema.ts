@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import { businessErrorResponseSchema } from '../error.schema';
-import { loanSchema } from '../loans.schema';
 import {
 	coercedNumberIntSchema,
 	nullableTimestampSchema,
 	numberIntPositiveSchema,
 } from '../primitive.schema';
+import { loanSchema } from './base.schema';
 
 const getLoanParamsSchema = z.object({
 	id: coercedNumberIntSchema,

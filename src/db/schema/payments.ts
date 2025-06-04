@@ -13,7 +13,7 @@ export const payments = pgTable(
 	'payments',
 	{
 		id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
-		userId: varchar('user_id', { length: 26 })
+		userId: varchar('user_id', { length: 24 })
 			.notNull()
 			.references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		loanId: integer('loan_id')

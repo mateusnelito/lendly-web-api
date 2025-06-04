@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { validationErrorResponseSchema } from '../error.schema';
-import { loanSchema } from '../loans.schema';
-import { paymentSchema } from '../payments.schema';
+import { loanSchema } from '../loans/base.schema';
+import { paymentSchema } from './base.schema';
 
 const createPaymentBodySchema = z.object({
 	loanId: paymentSchema.shape.loanId,

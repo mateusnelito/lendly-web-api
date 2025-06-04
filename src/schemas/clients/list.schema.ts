@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { clientSchema } from '../clients.schema';
 import { businessErrorResponseSchema } from '../error.schema';
 import { numberIntPositiveSchema } from '../primitive.schema';
+import { clientSchema } from './base.schema';
 
 export const getClientsRouteSchema = {
 	summary: 'Get a user clients',

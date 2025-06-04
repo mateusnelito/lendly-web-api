@@ -11,8 +11,8 @@ export async function ensureUserEmailIsAvailable(
 	const user = await findUserEmail(email, userId);
 
 	if (user)
-		throw new ClientError('Email invalido.', HttpStatusCodes.CONFLICT, {
-			email: ['Já existe um usuário com este email.'],
+		throw new ClientError('Email invalido', HttpStatusCodes.CONFLICT, {
+			email: ['Já existe uma conta com este email'],
 		});
 
 	return user;

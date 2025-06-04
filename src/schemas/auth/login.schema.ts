@@ -23,7 +23,7 @@ export const loginUserRouteSchema = {
 			}),
 		}),
 		400: validationErrorResponseSchema,
-		401: businessErrorResponseSchema,
+		401: validationErrorResponseSchema,
 	},
 };
 

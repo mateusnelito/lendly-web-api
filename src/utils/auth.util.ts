@@ -2,7 +2,9 @@ import ClientError from './client-error.util';
 import { HttpStatusCodes } from './http-status-codes.util';
 
 export function throwInvalidUserCredentials() {
-	throw new ClientError('Credenciais inválidas.', HttpStatusCodes.UNAUTHORIZED);
+	throw new ClientError('Acesso negado', HttpStatusCodes.UNAUTHORIZED, {
+		password: ['Credenciais inválidas'],
+	});
 }
 
 export function throwInvalidAuthUserJWT() {

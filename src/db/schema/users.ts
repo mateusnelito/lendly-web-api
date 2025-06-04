@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { relations } from 'drizzle-orm';
 import {
 	boolean,
@@ -6,7 +7,6 @@ import {
 	timestamp,
 	varchar,
 } from 'drizzle-orm/pg-core';
-import { ulid } from 'ulid';
 import { clients } from './clients';
 import { loans } from './loans';
 import { payments } from './payments';
@@ -14,9 +14,9 @@ import { payments } from './payments';
 export const users = pgTable(
 	'users',
 	{
-		id: varchar('id', { length: 26 })
+		id: varchar('id', { length: 24 })
 			.primaryKey()
-			.$defaultFn(() => ulid()),
+			.$defaultFn(() => createId()),
 		name: varchar('name', { length: 50 }).notNull(),
 		email: varchar('email', { length: 255 }).notNull().unique(),
 		passwordHash: varchar('password_hash', { length: 255 }).notNull(),

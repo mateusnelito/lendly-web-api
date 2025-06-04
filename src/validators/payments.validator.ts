@@ -1,4 +1,4 @@
-import { CreatePaymentBody } from '../schemas/payments.schema';
+import { CreatePaymentBody } from '../schemas/payments/create.schema';
 import { findLoanById } from '../services/loans.service';
 import { findPaymentById } from '../services/payments.service';
 import ClientError from '../utils/client-error.util';
@@ -10,8 +10,8 @@ export async function ensureLoanIdExists(loanId: number, userId: string) {
 	const loan = await findLoanById(loanId, userId);
 
 	if (!loan)
-		throw new ClientError('Empréstimo inválido.', HttpStatusCodes.NOT_FOUND, {
-			loanId: ['Empréstimo não encontrado.'],
+		throw new ClientError('Empréstimo inválido', HttpStatusCodes.NOT_FOUND, {
+			loanId: ['Empréstimo não encontrado'],
 		});
 
 	return loan;
@@ -27,19 +27,19 @@ export async function validatePaymentData(
 
 	if (amount < loan.amountGiven) {
 		throw new ClientError(
-			'Valor de pagamento inválido.',
+			'Valor de pagamento inválido',
 			HttpStatusCodes.BAD_REQUEST,
 			{
 				amount: [
-					'O valor do pagamento não pode ser inferior ao valor emprestado.',
+					'O valor do pagamento não pode ser inferior ao valor emprestado',
 				],
 			}
 		);
 	}
 
 	if (loan.isPaid) {
-		throw new ClientError('Pagamento inválido.', HttpStatusCodes.BAD_REQUEST, {
-			loanId: ['Este empréstimo já está quitado.'],
+		throw new ClientError('Pagamento inválido', HttpStatusCodes.BAD_REQUEST, {
+			loanId: ['Empréstimo já está quitado'],
 		});
 	}
 
@@ -49,24 +49,25 @@ export async function validatePaymentData(
 
 		if (paymentDate > today) {
 			throw new ClientError(
-				'Data de pagamento inválida.',
+				'Data de pagamento inválida',
 				HttpStatusCodes.BAD_REQUEST,
-				{ date: ['A data do pagamento não pode estar no futuro.'] }
+				{ date: ['A data do pagamento não pode estar no futuro'] }
 			);
 		}
 
 		const limitPaymentDate = new Date();
+
 		limitPaymentDate.setFullYear(
 			limitPaymentDate.getFullYear() - MAX_YEARS_IN_PAST_FOR_PAYMENT_DATE
 		);
 
 		if (paymentDate < limitPaymentDate) {
 			throw new ClientError(
-				'Data de pagamento inválida.',
+				'Data de pagamento inválida',
 				HttpStatusCodes.BAD_REQUEST,
 				{
 					date: [
-						`A data do pagamento não pode ser anterior a ${MAX_YEARS_IN_PAST_FOR_PAYMENT_DATE} anos.`,
+						`A data do pagamento não pode ser anterior a ${MAX_YEARS_IN_PAST_FOR_PAYMENT_DATE} anos`,
 					],
 				}
 			);
@@ -81,7 +82,7 @@ export async function ensurePaymentExists(id: number, userId: string) {
 
 	if (!payment)
 		throw new ClientError(
-			'Pagamento não registrado ou excluído.',
+			'Pagamento não registrado ou excluído',
 			HttpStatusCodes.NOT_FOUND
 		);
 

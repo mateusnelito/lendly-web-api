@@ -1,8 +1,8 @@
 import { and, eq, ne } from 'drizzle-orm';
 import { db } from '../db';
 import { users } from '../db/schema/users';
-import { RegisterUserBody } from '../schemas/auth.schema';
-import { UpdateMeBody } from '../schemas/me.schema';
+import { RegisterUserBody } from '../schemas/auth/register.schema';
+import { UpdateMeBody } from '../schemas/me/update.schema';
 import { hashPassword } from '../utils/bcrypt.util';
 import { SELECT_USER_FIELDS } from '../utils/drizzle.util';
 
@@ -16,7 +16,7 @@ export async function createUser(data: RegisterUserBody) {
 			email,
 			passwordHash: await hashPassword(password),
 		})
-		.returning();
+		.returning(SELECT_USER_FIELDS);
 
 	return user;
 }

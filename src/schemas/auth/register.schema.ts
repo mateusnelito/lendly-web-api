@@ -16,7 +16,7 @@ export const registerUserRouteSchema = {
 	response: {
 		201: z.object({
 			status: z.string().default('success'),
-			data: userSchema,
+			data: z.object({ user: userSchema, accessToken: z.string().jwt() }),
 		}),
 		400: validationErrorResponseSchema,
 		409: validationErrorResponseSchema,

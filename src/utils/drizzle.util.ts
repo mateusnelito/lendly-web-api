@@ -1,13 +1,7 @@
-import { eq } from 'drizzle-orm';
 import { clients } from '../db/schema/clients';
 import { loans } from '../db/schema/loans';
 import { payments } from '../db/schema/payments';
 import { users } from '../db/schema/users';
-
-// TODO: MAKE more generic to be used by any drizzle table
-export function byUserIdEquals(userId: string) {
-	return eq(clients.userId, userId);
-}
 
 export const SELECT_LOAN_FIELDS = {
 	id: loans.id,

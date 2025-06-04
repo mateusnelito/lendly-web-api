@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { validationErrorResponseSchema } from '../error.schema';
-import { loanSchema } from '../loans.schema';
+import { loanSchema } from './base.schema';
 
 const createLoanBodySchema = z.object({
 	clientId: loanSchema.shape.clientId,

@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { loanSchema } from './loans.schema';
+import { loanSchema } from '../loans/base.schema';
 import {
 	nullableTimestampSchema,
 	numberIntPositiveSchema,
-} from './primitive.schema';
+} from '../primitive.schema';
 
 export const paymentSchema = z.object({
 	id: numberIntPositiveSchema,

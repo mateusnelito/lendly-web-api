@@ -22,7 +22,7 @@ export const loans = pgTable(
 				onDelete: 'cascade',
 				onUpdate: 'cascade',
 			}),
-		userId: varchar('user_id', { length: 26 })
+		userId: varchar('user_id', { length: 24 })
 			.notNull()
 			.references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 		amountGiven: integer('amount_given').notNull(),

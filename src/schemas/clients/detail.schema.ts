@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { clientSchema } from '../clients.schema';
 import { businessErrorResponseSchema } from '../error.schema';
 import { coercedNumberIntSchema } from '../primitive.schema';
+import { clientSchema } from './base.schema';
 
 const getClientRouteParamsSchema = z.object({
 	id: coercedNumberIntSchema,
