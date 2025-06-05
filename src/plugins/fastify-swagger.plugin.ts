@@ -5,16 +5,27 @@ import { jsonSchemaTransform } from 'fastify-type-provider-zod';
 
 export default fastifyPlugin(async server => {
 	server.register(fastifySwagger, {
-		swagger: {
+		openapi: {
 			info: {
 				title: 'Lendly API',
 				description: 'API for managing informal loans and payments per user',
 				version: '1.0.0',
+				contact: {
+					name: 'Mateus Nelito',
+					url: 'https://github.com/mateusnelito',
+					email: 'mateuscelestinofreacker@gmail.com',
+				},
 			},
-			host: 'http://localhost:3000',
-			schemes: ['http'],
-			consumes: ['application/json'],
-			produces: ['application/json'],
+			servers: [
+				{
+					url: 'https://lendly-web-api.onrender.com',
+					description: 'Production server',
+				},
+				{
+					url: 'http://localhost:3000',
+					description: 'Development server',
+				},
+			],
 			tags: [
 				{
 					name: 'auth',
@@ -37,19 +48,25 @@ export default fastifyPlugin(async server => {
 					description: 'Authenticated user details and management.',
 				},
 			],
-			securityDefinitions: {
-				bearerAuth: {
-					type: 'apiKey',
-					name: 'Authorization',
-					in: 'header',
+			components: {
+				securitySchemes: {
+					bearerAuth: {
+						type: 'apiKey',
+						name: 'Authorization',
+						in: 'header',
+					},
 				},
 			},
 			security: [{ bearerAuth: [] }],
+			externalDocs: {
+				url: 'https://github.com/mateusnelito/lendly-web-api',
+				description: 'Find more info here',
+			},
 		},
 		transform: jsonSchemaTransform,
 	});
 
 	server.register(fastifySwaggerUi, {
-		routePrefix: '/swagger',
+		routePrefix: '/docs',
 	});
 });
