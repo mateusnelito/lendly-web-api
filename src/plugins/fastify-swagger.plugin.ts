@@ -54,6 +54,8 @@ export default fastifyPlugin(async server => {
 						type: 'apiKey',
 						name: 'Authorization',
 						in: 'header',
+						description:
+							'Enter your JWT token prefixed with "Bearer ", e.g. "Bearer eyJhbGciOi..."',
 					},
 				},
 			},
