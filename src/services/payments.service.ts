@@ -90,18 +90,12 @@ export async function findPaymentByIdOrThrownError(id: number, userId: string) {
 		.from(payments)
 		.innerJoin(loans, eq(payments.loanId, loans.id))
 		.innerJoin(clients, eq(loans.clientId, clients.id))
-		.where(
-			and(
-				eq(payments.id, id),
-				eq(payments.userId, userId),
-				isNull(payments.deletedAt)
-			)
-		)
+		.where(and(eq(payments.id, id), eq(payments.userId, userId)))
 		.limit(1);
 
 	if (!paymentWithLoan) {
 		throw new ClientError(
-			'Pagamento não registrado ou excluído.',
+			'Pagamento não registrado',
 			HttpStatusCodes.NOT_FOUND
 		);
 	}

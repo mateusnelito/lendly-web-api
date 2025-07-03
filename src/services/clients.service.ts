@@ -82,7 +82,7 @@ export async function findClientByIdOrThrownError(id: number, userId: string) {
 		.limit(1);
 
 	if (!client)
-		throw new ClientError('Cliente não registrado.', HttpStatusCodes.NOT_FOUND);
+		throw new ClientError('Cliente não registrado', HttpStatusCodes.NOT_FOUND);
 
 	return client;
 }
