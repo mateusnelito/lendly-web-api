@@ -110,13 +110,13 @@ O sistema utiliza **Drizzle ORM** com **PostgreSQL**. Abaixo está um resumo das
 
 ## 5. Manipulação de valores monetários
 
-Para garantir precisão, os valores de `balance` e `amount` são armazenados como inteiros (em centavos). Assim, Kz 1.000,00 é armazenado como `100000`.
+Para garantir precisão, os valores de `amountGiven` e `interestValuePerMonth` são armazenados como inteiros (em centavos). Assim, Kz 1.000,00 é armazenado como `100000`.
 
 ### Exemplo em JavaScript
 
 ```javascript
 // Valor em centavos
-const balanceInCents = 100000; // Representa Kz 1.000,00
+const amountGivenInCents = 100000; // Representa Kz 1.000,00
 
 // Função para formatar
 function formatCurrency(cents) {
@@ -124,7 +124,7 @@ function formatCurrency(cents) {
   return `Kz ${kwanzas.toFixed(2)}`;
 }
 
-console.log(`Saldo: ${formatCurrency(balanceInCents)}`); // Saldo: Kz 1000.00
+console.log(`Saldo: ${formatCurrency(amountGivenInCents)}`); // Saldo: Kz 1000.00
 
 // Para enviar ao backend:
 const amountInKwanza = 75.25;
