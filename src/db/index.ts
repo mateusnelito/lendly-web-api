@@ -8,7 +8,7 @@ const DATABASE_URL = isProd ? env.DATABASE_URL_PROD : env.DATABASE_URL_DEV;
 let db: NodePgDatabase;
 
 if (isProd) {
-	db = drizzle(DATABASE_URL);
+	db = drizzle(DATABASE_URL as string);
 } else {
 	const pool = new Pool({
 		connectionString: DATABASE_URL,
