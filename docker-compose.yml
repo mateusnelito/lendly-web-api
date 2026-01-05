@@ -2,13 +2,12 @@ version: "3.8"
 
 services:
   postgres:
-    image: bitnami/postgresql:17.4.0
+    image: postgres:17.4
     container_name: lendly_database
     environment:
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=lendly
-      - ALLOW_EMPTY_PASSWORD=no
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: lendly
     ports:
       - "5432:5432"
     volumes:
