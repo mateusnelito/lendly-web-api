@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - lendly_data:/bitnami/postgresql
+      - lendly_data:/var/lib/postgresql/data
 
 volumes:
   lendly_data:
